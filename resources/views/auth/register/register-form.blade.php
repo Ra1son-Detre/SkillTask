@@ -1,0 +1,38 @@
+<form method="POST" action="{{ route('register.store') }}">
+    @csrf
+
+    <div>
+        <label for="name">Имя</label>
+        <input id="name" type="text" name="name" value="{{ old('name') }}" required autofocus>
+        @error('name')
+        <div>{{ $message }}</div>
+        @enderror
+    </div>
+
+    <div>
+        <label for="email">Email</label>
+        <input id="email" type="email" name="email" value="{{ old('email') }}" required>
+        @error('email')
+        <div>{{ $message }}</div>
+        @enderror
+    </div>
+
+    <div>
+        <label for="password">Пароль</label>
+        <input id="password" type="password" name="password" required>
+        @error('password')
+        <div>{{ $message }}</div>
+        @enderror
+    </div>
+
+    <div>
+        <label for="password_confirmation">Подтверждение пароля</label>
+        <input id="password_confirmation" type="password" name="password_confirmation" required>
+    </div>
+
+    <div>
+        <button type="submit">
+            Зарегистрироваться
+        </button>
+    </div>
+</form>

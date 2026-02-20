@@ -1,19 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Task;
 
-class TaskController extends Controller
+class LogoutController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('tasks.index');
+        //
     }
 
     /**

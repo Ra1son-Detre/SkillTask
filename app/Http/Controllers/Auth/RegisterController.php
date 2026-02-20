@@ -1,19 +1,22 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\Task;
+use App\Http\Requests\Auth\RegisterRequest;
+use App\Models\User;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Auth;
 
-class TaskController extends Controller
+
+class RegisterController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('tasks.index');
+        //
     }
 
     /**
@@ -21,15 +24,20 @@ class TaskController extends Controller
      */
     public function create()
     {
-        //
+        return view('auth.register.register-form');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(RegisterRequest $request)
     {
-        //
+        $validated = $request->validated();
+        $user = User::create($validated);
+        event(new Registered($user));
+        Auth::login($user);
+
+        return redirect()->route('verification.notice');
     }
 
     /**
