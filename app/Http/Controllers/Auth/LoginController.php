@@ -28,6 +28,7 @@ class LoginController extends Controller
         if(!Auth::attempt($data)){
             dd('Не правильно');
         };
+        $request->session()->regenerate();
 
 
     }

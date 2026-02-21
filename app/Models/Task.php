@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Enums\TaskStatus;
 
 class Task extends Model
 {
@@ -15,11 +16,13 @@ class Task extends Model
         'description',
         'price',
         'status',
+        'completed_at',
     ];
 
     protected $casts = [
         'price' => 'decimal:2',
         'completed_at' => 'datetime',
+        'status' => TaskStatus::class,
     ];
 
     public function client() :BelongsTo

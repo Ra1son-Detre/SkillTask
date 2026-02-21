@@ -7,6 +7,7 @@ use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
+use App\Enums\UserRole;
 
 
 class RegisterController extends Controller
@@ -24,7 +25,8 @@ class RegisterController extends Controller
      */
     public function create()
     {
-        return view('auth.register.register-form');
+        $roles = UserRole::forRegistration();
+        return view('auth.register.register-form', compact('roles'));
     }
 
     /**
@@ -33,6 +35,7 @@ class RegisterController extends Controller
     public function store(RegisterRequest $request)
     {
         $validated = $request->validated();
+        dd($validated);
         $user = User::create($validated);
         event(new Registered($user));
         Auth::login($user);

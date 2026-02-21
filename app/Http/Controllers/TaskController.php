@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\TaskStatus;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Task;
+use App\Models\User;
+use App\Http\Requests\Task\TaskStoreRequest;
 
 class TaskController extends Controller
 {
@@ -13,7 +16,8 @@ class TaskController extends Controller
      */
     public function index()
     {
-        return view('tasks.index');
+        $tasks = auth()->user()->clientTasks()->get();
+        return view('tasks.index', compact('tasks'));
     }
 
     /**
@@ -21,15 +25,19 @@ class TaskController extends Controller
      */
     public function create()
     {
-        //
+        return view('tasks.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(TaskStoreRequest $request)
     {
-        //
+        $data = $request->validated();
+        $data['status'] = TaskStatus::DRAFT;
+        $task = $request->user()->clientTasks()->create($data);
+
+        return redirect()->route('tasks.index', $task);
     }
 
     /**
