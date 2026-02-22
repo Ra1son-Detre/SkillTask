@@ -29,6 +29,7 @@ class LoginController extends Controller
             dd('Не правильно');
         };
         $request->session()->regenerate();
+        return redirect(route('tasks.index'));
 
 
     }

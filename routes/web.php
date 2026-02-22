@@ -25,7 +25,7 @@ Route::prefix('email/verify')->group(function () {
 });
 Route::middleware('guest')->group(function () {
     Route::prefix('/login')->group(function () {
-        Route::get('', [LoginController::class, 'show'])->name('login.show');
+        Route::get('', [LoginController::class, 'show'])->name('login');
         Route::post('', [LoginController::class, 'store'])->name('login.try');
     });
 });
@@ -47,8 +47,13 @@ Route::middleware(['auth', 'verified'])->prefix('tasks/')->controller(UserContro
 
 
 Route::middleware(['auth', 'verified'])->prefix('/tasks')->controller(TaskController::class)->group(function () {
-    Route::get('/index', 'index')->name('tasks.index');
-    Route::get('/create', 'create')->name('tasks.create');
+    Route::get('', 'index')->name('tasks.index');
     Route::post('', 'store')->name('tasks.store');
+    Route::get('/create', 'create')->name('tasks.create');
+    Route::get('/{task}', 'show')->name('tasks.show');
+    Route::get('/{task}/edit', 'edit')->name('tasks.edit');
+    Route::patch('/{task}', 'update')->name('tasks.update');
+    Route::delete('/{task}', 'destroy')->name('tasks.destroy');
+
 
 });

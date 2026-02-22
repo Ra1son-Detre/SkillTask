@@ -46,6 +46,7 @@ class UserController extends Controller
         auth()->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+        return redirect(route('login'));
     }
     /**
      * Show the form for editing the specified resource.

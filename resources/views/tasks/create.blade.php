@@ -1,3 +1,6 @@
+<a href="{{route('tasks.index')}}">Main</a>
+<br>
+
 <form action="{{ route('tasks.store') }}" method="POST">
     @csrf
     <div>

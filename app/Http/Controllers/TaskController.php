@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Task;
 use App\Models\User;
 use App\Http\Requests\Task\TaskStoreRequest;
+use App\Http\Requests\Task\TaskUpdateRequest;
 
 class TaskController extends Controller
 {
@@ -43,32 +44,36 @@ class TaskController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Task $task)
     {
-        //
+        $this->authorize('view', $task);
+        return view('tasks.show', compact('task'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Task $task)
     {
-        //
+        return view('tasks.edit', compact('task'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(TaskUpdateRequest $request, Task $task)
     {
-        //
+        $this->authorize('update', $task);
+        $task->update($request->validated());
+        return redirect()->route('tasks.show', $task);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Task $task)
     {
-        //
+        $task->delete();
+        return redirect()->route('tasks.index')->with('success', 'Task deleted successfully');
     }
 }

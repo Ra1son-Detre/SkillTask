@@ -9,23 +9,21 @@
 
     @foreach($tasks as $task)
         <div>
-            <h1>------------------------</h1>
-            <h3>Задча: {{ $task->title }}</h3>
+            <hr>
+
+            <h3>Задача: {{ $task->title }}</h3>
 
             <p>Описание: {{ $task->description }}</p>
 
-            <p>
-                Цена: {{ $task->price}}
-            </p>
+            <p>Цена: {{ $task->price }}</p>
 
-            <p>
-                Статус: {{ $task->status->value }}
-            </p>
+            <p>Статус: {{ $task->status->value }}</p>
 
-            <p>
-                Создано: {{ $task->created_at->format('d.m.Y ') }}
-            </p>
-            <h1>------------------------</h1>
+            <p>Создано: {{ $task->created_at->format('d.m.Y') }}</p>
+
+            <a href="{{ route('tasks.show', $task) }}">
+                Просмотреть
+            </a>
         </div>
     @endforeach
 

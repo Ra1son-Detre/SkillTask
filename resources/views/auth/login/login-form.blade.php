@@ -1,6 +1,7 @@
 
     <h1>Login</h1>
-
+    <a href="{{route('tasks.index')}}">Main</a>
+    <br>
 
 
     <form method="POST" action="{{ route('login.try') }}">

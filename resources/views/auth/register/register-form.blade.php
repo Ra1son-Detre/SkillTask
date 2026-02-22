@@ -1,3 +1,6 @@
+<a href="{{route('tasks.index')}}">Main</a>
+<br>
+
 <form method="POST" action="{{ route('register.store') }}">
     @csrf
 
@@ -57,4 +60,4 @@
         </button>
     </div>
 </form>
-<a href="{{route('login.show')}}">Login</a>
+<a href="{{route('login')}}">Login</a>
