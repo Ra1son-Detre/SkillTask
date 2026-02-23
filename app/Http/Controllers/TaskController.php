@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Enums\TaskStatus;
+use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
+use App\Queries\GetClientTasksQuery;
+use App\Queries\GetTasksQuery;
 use Illuminate\Http\Request;
 use App\Models\Task;
 use App\Models\User;
@@ -13,12 +16,9 @@ use App\Queries\GetExecutorTasksQuery;
 
 class TaskController extends Controller
 {
-    public function index(GetExecutorTasksQuery $query, Request $request)
+    public function index(GetTasksQuery $query, Request $request)
     {
-
-        $tasks = $query->test($request);
-
-//        $tasks = auth()->user()->clientTasks()->get();
+        $tasks = $query->get($request, auth()->user());
 
         return view('tasks.index', compact('tasks'));
     }

@@ -13,15 +13,17 @@
     <input type="text" name="search" placeholder="Поиск по названию"
            value="{{ request('search') }}">
 
-    <input type="number" name="min_price" placeholder="Мин. цена"
-           value="{{ request('min_price') }}">
+    <select name="price_sort">
+        <option value="">Цена</option>
+        <option value="asc">По возрастанию</option>
+        <option value="desc">По убыванию</option>
+    </select>
 
-    <input type="number" name="max_price" placeholder="Макс. цена"
-           value="{{ request('max_price') }}">
-
-    <input type="date" name="date_from"
-           value="{{ request('date_from') }}">
-
+    <select name="date_sort">
+        <option value="">Дата</option>
+        <option value="asc">Сначала старые</option>
+        <option value="desc">Сначала новые</option>
+    </select>
     <button type="submit">Фильтр</button>
 
 </form>
@@ -39,6 +41,7 @@
             <p>Статус: {{ $task->status->label() }}</p>
 
             <p>Создано: {{ $task->created_at->format('d.m.Y') }}</p>
+            <p>Владелец: {{$task->client_id}}</p>
 
             <a href="{{ route('tasks.show', $task) }}">
                 Просмотреть
