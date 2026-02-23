@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Enums\TaskStatus;
 use Illuminate\Auth\Access\Response;
 use App\Models\Task;
 use App\Models\User;
@@ -14,7 +15,7 @@ class TaskPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->id === $task->client_id || $user->role === UserRole::ADMIN;
+        return false;
     }
 
     /**
@@ -22,7 +23,7 @@ class TaskPolicy
      */
     public function view(User $user, Task $task): bool
     {
-        return $user->id === $task->client_id || $user->role === UserRole::ADMIN;
+        return $user->id === $task->client_id || $user->role === UserRole::ADMIN ||$user->role === UserRole::EXECUTOR;
     }
 
     /**
@@ -30,7 +31,7 @@ class TaskPolicy
      */
     public function create(User $user): bool
     {
-        return $user->id === $task->client_id || $user->role === UserRole::ADMIN;
+        return $user->role === UserRole::CLIENT;
     }
 
     /**
@@ -38,7 +39,7 @@ class TaskPolicy
      */
     public function update(User $user, Task $task): bool
     {
-        return $user->id === $task->client_id || $user->role === UserRole::ADMIN;
+        return $user->id === $task->client_id && $task->status === TaskStatus::DRAFT;
     }
 
     /**
@@ -54,7 +55,7 @@ class TaskPolicy
      */
     public function restore(User $user, Task $task): bool
     {
-        return $user->id === $task->client_id || $user->role === UserRole::ADMIN;
+        return $user->id === $task->client_id && $task->status === TaskStatus::DRAFT || $user->role === UserRole::ADMIN;
     }
 
     /**
@@ -63,5 +64,15 @@ class TaskPolicy
     public function forceDelete(User $user, Task $task): bool
     {
         return $user->id === $task->client_id || $user->role === UserRole::ADMIN;
+    }
+
+    public function publish(User $user, Task $task): bool
+    {
+        return $user->id === $task->client_id && $task->status === TaskStatus::DRAFT;
+    }
+
+    public function draft(User $user, Task $task): bool
+    {
+        return $user->id === $task->client_id && $task->status === TaskStatus::PUBLISHED;
     }
 }

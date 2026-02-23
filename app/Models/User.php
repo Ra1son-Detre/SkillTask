@@ -65,4 +65,9 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Task::class, 'client_id');
     }
+
+    public function isClient() :bool
+    {
+        return $this->role === UserRole::CLIENT;
+    }
 }

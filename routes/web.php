@@ -23,19 +23,19 @@ Route::prefix('email/verify')->group(function () {
    })->middleware(['auth', 'signed'])->name('verification.verify');
 
 });
+
 Route::middleware('guest')->group(function () {
-    Route::prefix('/login')->group(function () {
-        Route::get('', [LoginController::class, 'show'])->name('login');
-        Route::post('', [LoginController::class, 'store'])->name('login.try');
-    });
-});
 
-
-Route::prefix('/register')->group(function () {
-    Route::controller(RegisterController::class)->group(function () {
-        Route::get('/form', 'create')->name('register.create');
-        Route::post('/form', 'store')->name('register.store');
+    Route::prefix('login')->controller(LoginController::class)->group(function () {
+        Route::get('', 'show')->name('login');
+        Route::post('', 'store')->name('login.try');
     });
+
+    Route::prefix('register')->controller(RegisterController::class)->group(function () {
+        Route::get('form', 'create')->name('register.create');
+        Route::post('form', 'store')->name('register.store');
+    });
+
 });
 
 
@@ -54,6 +54,8 @@ Route::middleware(['auth', 'verified'])->prefix('/tasks')->controller(TaskContro
     Route::get('/{task}/edit', 'edit')->name('tasks.edit');
     Route::patch('/{task}', 'update')->name('tasks.update');
     Route::delete('/{task}', 'destroy')->name('tasks.destroy');
+    Route::patch('/{task}/publish', 'publish')->name('tasks.publish');
+    Route::patch('/{task}/draft', 'draft')->name('tasks.draft');
 
 
 });

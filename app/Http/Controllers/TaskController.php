@@ -9,29 +9,25 @@ use App\Models\Task;
 use App\Models\User;
 use App\Http\Requests\Task\TaskStoreRequest;
 use App\Http\Requests\Task\TaskUpdateRequest;
+use App\Queries\GetExecutorTasksQuery;
 
 class TaskController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(GetExecutorTasksQuery $query, Request $request)
     {
-        $tasks = auth()->user()->clientTasks()->get();
+
+        $tasks = $query->test($request);
+
+//        $tasks = auth()->user()->clientTasks()->get();
+
         return view('tasks.index', compact('tasks'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
+        $this->authorize('create', Task::class);
         return view('tasks.create');
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(TaskStoreRequest $request)
     {
         $data = $request->validated();
@@ -41,26 +37,18 @@ class TaskController extends Controller
         return redirect()->route('tasks.index', $task);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Task $task)
     {
         $this->authorize('view', $task);
         return view('tasks.show', compact('task'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Task $task)
     {
+        $this->authorize('update', $task);
         return view('tasks.edit', compact('task'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(TaskUpdateRequest $request, Task $task)
     {
         $this->authorize('update', $task);
@@ -68,12 +56,23 @@ class TaskController extends Controller
         return redirect()->route('tasks.show', $task);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Task $task)
     {
         $task->delete();
         return redirect()->route('tasks.index')->with('success', 'Task deleted successfully');
+    }
+
+    public function publish(Task $task)
+    {
+        $this->authorize('publish', $task);
+        $task->update(['status' => TaskStatus::PUBLISHED]);
+        return back();
+    }
+
+    public function draft(Task $task)
+    {
+        $this->authorize('draft', $task);
+        $task->update(['status' => TaskStatus::DRAFT]);
+        return back();
     }
 }

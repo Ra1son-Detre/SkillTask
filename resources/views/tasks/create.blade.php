@@ -18,8 +18,8 @@
     <br>
 
     <div>
-        <label for="description">Цена</label> dad
-    <input type="number" name="price" step="0.01">
+        <label for="description">Цена</label>
+    <input type="number" name="price" step="0.01" >
     </div>
 
 
