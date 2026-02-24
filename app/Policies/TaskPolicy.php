@@ -75,4 +75,10 @@ class TaskPolicy
     {
         return $user->id === $task->client_id && $task->status === TaskStatus::PUBLISHED;
     }
+
+    public function respond(User $user, Task $task): bool
+    {
+        return $user->role === UserRole::EXECUTOR && $task->status === TaskStatus::PUBLISHED && $task->executor_id === null && !$task->responses()->where('executor_id', $user->id)->exists();
+    }
+
 }

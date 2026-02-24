@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\TaskResponseController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Mail;
@@ -56,6 +57,13 @@ Route::middleware(['auth', 'verified'])->prefix('/tasks')->controller(TaskContro
     Route::delete('/{task}', 'destroy')->name('tasks.destroy');
     Route::patch('/{task}/publish', 'publish')->name('tasks.publish');
     Route::patch('/{task}/draft', 'draft')->name('tasks.draft');
+
+
+});
+
+Route::middleware(['auth', 'verified'])->prefix('/tasks')->controller(TaskResponseController::class)->group(function () {
+    Route::post('/{task}/response', 'store')->name('tasks.response.store');
+
 
 
 });
