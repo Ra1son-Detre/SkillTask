@@ -5,14 +5,15 @@ namespace App\Http\Controllers;
 use App\Enums\TaskStatus;
 use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
-use App\Queries\GetClientTasksQuery;
+use App\Models\TaskResponse;
 use App\Queries\GetTasksQuery;
+use App\Services\TaskAcceptResponseService;
 use Illuminate\Http\Request;
 use App\Models\Task;
 use App\Models\User;
 use App\Http\Requests\Task\TaskStoreRequest;
 use App\Http\Requests\Task\TaskUpdateRequest;
-use App\Queries\GetExecutorTasksQuery;
+use App\Services\TaskResponseService;
 
 class TaskController extends Controller
 {
@@ -40,6 +41,7 @@ class TaskController extends Controller
     public function show(Task $task)
     {
         $this->authorize('view', $task);
+        $task->load(['responses.executor']);
         return view('tasks.show', compact('task'));
     }
 
@@ -75,4 +77,12 @@ class TaskController extends Controller
         $task->update(['status' => TaskStatus::DRAFT]);
         return back();
     }
+
+//    public function choseExecutor (Task $task, TaskAcceptResponseService $service, TaskResponse $response)
+//    {
+//        $this->authorize('choseExecutor', $task);
+//        $service->chooseExecutor($task, $response);
+//        return back()->with('success', 'Исполнитель выбран');
+//
+//    }
 }

@@ -61,10 +61,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Transaction::class, 'to_user_id');
     }
 
-    public function scopeMyTasks() :HasMany
-    {
-        return $this->hasMany(Task::class, 'client_id');
-    }
 
     public function isClient() :bool
     {

@@ -10,3 +10,8 @@
     @csrf
     <button type="submit">Logout</button>
 </form>
+<h2>Мои задачи с откликами</h2>
+
+<a href="{{ route('user.tasks.responses') }}">
+    Мои задачи с откликами
+</a>

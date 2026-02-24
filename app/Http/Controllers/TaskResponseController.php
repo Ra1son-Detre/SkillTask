@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Task\TaskResponseRequest;
 use App\Models\Task;
 use App\Models\User;
+use App\Services\TaskAcceptResponseService;
 use Illuminate\Http\Request;
 use App\Models\TaskResponse;
 use App\Services\TaskResponseService;
@@ -25,12 +26,19 @@ class TaskResponseController extends Controller
 
     public function store(Task $task, TaskResponseService $service, TaskResponseRequest $request)
     {
-        $this->authorize('response', $task);
+        $this->authorize('respond', $task);
         $service->respond(auth()->user(), $task, $request->validated('message'));
 
         return back()->with('success', 'Отклик отправлен');
     }
 
+    public function chooseExecutor (Task $task, TaskAcceptResponseService $service, TaskResponse $response)
+    {
+        $this->authorize('chooseExecutor', $task);
+        $service->chooseExecutor($task, $response);
+        return back()->with('success', 'Исполнитель выбран');
+
+    }
     public function show(string $id)
     {
         //

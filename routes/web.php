@@ -40,9 +40,12 @@ Route::middleware('guest')->group(function () {
 });
 
 
-Route::middleware(['auth', 'verified'])->prefix('tasks/')->controller(UserController::class)->group(function () {
-        Route::get('profile', 'show')->name('user.profile');
-        Route::post('profile', 'logout')->name('user.logout');
+Route::middleware(['auth', 'verified'])->prefix('profile')->controller(UserController::class)->group(function () {
+
+        Route::get('/', 'show')->name('user.profile');
+        Route::post('/logout', 'logout')->name('user.logout');
+
+        Route::get('/tasks/responses', 'myTasksResponses')->name('user.tasks.responses');
     });
 
 
@@ -63,6 +66,7 @@ Route::middleware(['auth', 'verified'])->prefix('/tasks')->controller(TaskContro
 
 Route::middleware(['auth', 'verified'])->prefix('/tasks')->controller(TaskResponseController::class)->group(function () {
     Route::post('/{task}/response', 'store')->name('tasks.response.store');
+    Route::patch('/{task}/response/{response}', 'chooseExecutor')->name('tasks.response.choose');
 
 
 
