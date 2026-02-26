@@ -7,6 +7,7 @@ enum TaskStatus: string
     case DRAFT = 'draft';
     case PUBLISHED = 'published';
     case IN_PROGRESS = 'in_progress';
+    case WAITING_FOR_CONFIRMATION = 'waiting_confirmation';
     case COMPLETED = 'completed';
     case CANCELLED = 'cancelled';
 

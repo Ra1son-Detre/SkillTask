@@ -61,9 +61,15 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Transaction::class, 'to_user_id');
     }
 
+    public function allExecutorResponses()
+    {
+
+    }
+
 
     public function isClient() :bool
     {
         return $this->role === UserRole::CLIENT;
     }
+
 }

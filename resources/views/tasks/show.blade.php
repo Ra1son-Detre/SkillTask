@@ -1,3 +1,4 @@
+
 <h1>Характеристики</h1>
 <a href="{{route('tasks.index')}}">Main</a>
 <br>
@@ -86,7 +87,14 @@
         @endcan
         <h1>------------------------</h1>
     </div>
-
+===============================================
+@if($task->executor)
+    <p>
+        <strong>Текущий исполнитель:</strong>
+        {{ $task->executor->name }}
+    </p>
+@endif
+===============================================
 <hr>
 
 @if(auth()->id() === $task->client_id)
@@ -94,7 +102,7 @@
 
     @forelse($task->responses as $response)
         <div >
-
+            ---------------------------------------
             <p>
                 <strong>Исполнитель:</strong>
                 {{ $response->executor->name }}
@@ -119,9 +127,21 @@
                 </button>
             </form>
                 @endcan
+            -------------------------------------
         </div>
     @empty
         <p>Пока нет откликов.</p>
     @endforelse
 @endif
 
+@can('completeByExecutor', $task)
+    @if($task->status === \App\Enums\TaskStatus::IN_PROGRESS)
+        <form method="POST" action="{{ route('tasks.completeByExecutor', $task) }}">
+            @csrf
+            @patch
+            <button class="btn btn-success">
+                Работа выполнена
+            </button>
+        </form>
+    @endif
+@endcan

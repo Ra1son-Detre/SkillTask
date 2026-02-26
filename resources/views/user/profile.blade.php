@@ -11,7 +11,15 @@
     <button type="submit">Logout</button>
 </form>
 <h2>Мои задачи с откликами</h2>
+@if (auth()->user()->role === \App\Enums\UserRole::EXECUTOR)
+    <a href="{{ route('tasks.my.responses') }}">
+        Мои задачи
+    </a>
+    <br>
+@endif
 
+@if (auth()->user()->role === \App\Enums\UserRole::CLIENT)
 <a href="{{ route('user.tasks.responses') }}">
     Мои задачи с откликами
 </a>
+@endif

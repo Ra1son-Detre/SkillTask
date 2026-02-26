@@ -5,6 +5,8 @@ use App\Models\Task;
 use App\Enums\TaskStatus;
 use App\Enums\UserRole;
 use App\Models\User;
+use http\QueryString;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 
 class GetTasksQuery
@@ -18,19 +20,6 @@ class GetTasksQuery
         return $query->get();
 
     }
-
-//    public function userRole($query, User $user)
-//    {
-//        if ($user->role === UserRole::CLIENT) {
-//            $query->where('client_id', $user->id);
-//        }
-//        if ($user->role === UserRole::EXECUTOR) {
-//            $query->where('status', TaskStatus::PUBLISHED)->whereNull('executor_id');
-//        }
-//        if($user->role === UserRole::ADMIN) {
-//
-//        }
-//    }
 
     public function userRole($query, User $user)
     {

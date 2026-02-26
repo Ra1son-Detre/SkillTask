@@ -6,6 +6,7 @@ use App\Enums\TaskStatus;
 use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
 use App\Models\TaskResponse;
+use App\Queries\ExecutorTasksQuery;
 use App\Queries\GetTasksQuery;
 use App\Services\TaskAcceptResponseService;
 use Illuminate\Http\Request;
@@ -78,11 +79,4 @@ class TaskController extends Controller
         return back();
     }
 
-//    public function choseExecutor (Task $task, TaskAcceptResponseService $service, TaskResponse $response)
-//    {
-//        $this->authorize('choseExecutor', $task);
-//        $service->chooseExecutor($task, $response);
-//        return back()->with('success', 'Исполнитель выбран');
-//
-//    }
 }

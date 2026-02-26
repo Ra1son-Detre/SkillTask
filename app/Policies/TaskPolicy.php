@@ -33,7 +33,7 @@ class TaskPolicy
 
     public function delete(User $user, Task $task): bool
     {
-        return $user->id === $task->client_id || $user->role === UserRole::ADMIN;
+        return ($user->id === $task->client_id || $user->role === UserRole::ADMIN) && $task->executor_id === null;
     }
 
     public function restore(User $user, Task $task): bool

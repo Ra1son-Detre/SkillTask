@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Task\TaskResponseRequest;
 use App\Models\Task;
 use App\Models\User;
+use App\Queries\ExecutorTasksQuery;
 use App\Services\TaskAcceptResponseService;
 use Illuminate\Http\Request;
 use App\Models\TaskResponse;
@@ -13,9 +14,11 @@ use App\Services\TaskResponseService;
 class TaskResponseController extends Controller
 {
 
-    public function index()
+    public function index(ExecutorTasksQuery $query, Request $request)
     {
-        //
+        $tasks = $query->get(auth()->user());
+
+        return view('user.executor-tasks', compact('tasks'));
     }
 
 

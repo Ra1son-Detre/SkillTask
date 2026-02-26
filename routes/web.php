@@ -50,7 +50,7 @@ Route::middleware(['auth', 'verified'])->prefix('profile')->controller(UserContr
 
 
 
-Route::middleware(['auth', 'verified'])->prefix('/tasks')->controller(TaskController::class)->group(function () {
+Route::middleware(['auth', 'verified'])->prefix('tasks')->controller(TaskController::class)->group(function () {
     Route::get('', 'index')->name('tasks.index');
     Route::post('', 'store')->name('tasks.store');
     Route::get('/create', 'create')->name('tasks.create');
@@ -64,7 +64,8 @@ Route::middleware(['auth', 'verified'])->prefix('/tasks')->controller(TaskContro
 
 });
 
-Route::middleware(['auth', 'verified'])->prefix('/tasks')->controller(TaskResponseController::class)->group(function () {
+Route::middleware(['auth', 'verified'])->controller(TaskResponseController::class)->group(function () {
+    Route::get('/my-responses', 'index')->name('tasks.my.responses');
     Route::post('/{task}/response', 'store')->name('tasks.response.store');
     Route::patch('/{task}/response/{response}', 'chooseExecutor')->name('tasks.response.choose');
 
