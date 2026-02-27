@@ -2,7 +2,16 @@
 
 <a href="{{ route('user.profile') }}">← Назад в профиль</a>
 <br><br>
-
+@auth
+    @foreach(auth()->user()->unreadNotifications as $notification)
+        <a href="{{ route('tasks.show', $notification->data['task_id']) }}">
+            {{ $notification->data['message'] }}
+        </a>
+    @endforeach
+    <div>
+        🔔 ({{ auth()->user()->unreadNotifications->count() }})
+    </div>
+@endauth
 @forelse($tasks as $task)
     <div style="border:1px solid #ccc; padding:15px; margin-bottom:15px;">
         <h3>{{ $task->title }}</h3>

@@ -3,10 +3,9 @@
 namespace App\Policies;
 
 use App\Enums\TaskStatus;
-use Illuminate\Auth\Access\Response;
+use App\Enums\UserRole;
 use App\Models\Task;
 use App\Models\User;
-use App\Enums\UserRole;
 
 class TaskPolicy
 {

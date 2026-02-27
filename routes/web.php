@@ -55,11 +55,13 @@ Route::middleware(['auth', 'verified'])->prefix('tasks')->controller(TaskControl
     Route::post('', 'store')->name('tasks.store');
     Route::get('/create', 'create')->name('tasks.create');
     Route::get('/{task}', 'show')->name('tasks.show');
+    Route::post('/tasks/{task}/report',  'reportCompletion')->name('tasks.report');
     Route::get('/{task}/edit', 'edit')->name('tasks.edit');
     Route::patch('/{task}', 'update')->name('tasks.update');
     Route::delete('/{task}', 'destroy')->name('tasks.destroy');
     Route::patch('/{task}/publish', 'publish')->name('tasks.publish');
     Route::patch('/{task}/draft', 'draft')->name('tasks.draft');
+    Route::patch('/{task}/confirm', 'confirmAndPay')->name('tasks.confirmAndPay');
 
 
 });

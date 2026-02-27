@@ -32,6 +32,18 @@
         <p><strong>Цена:</strong> {{ $task->price }}</p>
         <p><strong>ID:</strong> {{ $task->id }}</p>
         <p><strong>Статус:</strong> {{ $task->status->label() }}</p>
+        @if(auth()->id() === $task->executor_id && $task->status === \App\Enums\TaskStatus::IN_PROGRESS && !$task->executor_confirmed_at
+ )
+            @if(auth()->id() === $task->executor_id)
+                <form action="{{ route('tasks.report', $task) }}" method="POST">
+                    @csrf
+                    <button type="submit">
+                        Сообщить о выполнении
+                    </button>
+                </form>
+            @endif
+        @endif
+
 
         <a href="{{ route('tasks.show', $task) }}">
             Смотреть задачу

@@ -6,9 +6,12 @@ use App\Enums\TaskStatus;
 use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
 use App\Models\TaskResponse;
+use App\Notifications\ExecutorReportedCompletion;
 use App\Queries\ExecutorTasksQuery;
 use App\Queries\GetTasksQuery;
+use App\Services\ReportCompletionActionService;
 use App\Services\TaskAcceptResponseService;
+use App\Services\TaskConfirmAndPay;
 use Illuminate\Http\Request;
 use App\Models\Task;
 use App\Models\User;
@@ -62,7 +65,7 @@ class TaskController extends Controller
     public function destroy(Task $task)
     {
         $task->delete();
-        return redirect()->route('tasks.index')->with('success', 'Task deleted successfully');
+        return redirect()->route('tasks.index')->with('success', 'Задача удалена');
     }
 
     public function publish(Task $task)
@@ -79,4 +82,15 @@ class TaskController extends Controller
         return back();
     }
 
+    public function reportCompletion(Task $task, ReportCompletionActionService $service)
+    {
+        $service->execute($task);
+        return back()->with('success', 'Клиент уведомлен');
+    }
+
+    public function confirmAndPay(Task $task, TaskConfirmAndPay $service)
+    {
+        $service->confirm($task, auth()->user());
+        return redirect()->route('tasks.show', $task);
+    }
 }
