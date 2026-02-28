@@ -49,6 +49,7 @@
             </form>
         @endif
 
+        @can('confirm-and-pay', $task)
         @if($task->status === \App\Enums\TaskStatus::AWAITING_CONFIRMATION)
             <form action="{{route('tasks.confirmAndPay', $task)}}" method="POST">
                 @csrf
@@ -59,6 +60,7 @@
                 </button>
             </form>
         @endif
+        @endcan
 
         @can('draft', $task)
             <form action="{{ route('tasks.draft', $task) }}" method="POST">

@@ -15,13 +15,11 @@ Route::get('/', function () {
 
 Route::prefix('email/verify')->group(function () {
    Route::get('', function () {
-       return view('auth.verify-email');
-   })->middleware('auth')->name('verification.notice');
+       return view('auth.verify-email');})->middleware('auth')->name('verification.notice');
 
    Route::get('{id}/{hash}', function (EmailVerificationRequest $request) {
        $request->fulfill();
-       return redirect()->route('tasks.index');
-   })->middleware(['auth', 'signed'])->name('verification.verify');
+       return redirect()->route('tasks.index');})->middleware(['auth', 'signed'])->name('verification.verify');
 
 });
 
@@ -62,15 +60,10 @@ Route::middleware(['auth', 'verified'])->prefix('tasks')->controller(TaskControl
     Route::patch('/{task}/publish', 'publish')->name('tasks.publish');
     Route::patch('/{task}/draft', 'draft')->name('tasks.draft');
     Route::patch('/{task}/confirm', 'confirmAndPay')->name('tasks.confirmAndPay');
-
-
 });
 
 Route::middleware(['auth', 'verified'])->controller(TaskResponseController::class)->group(function () {
     Route::get('/my-responses', 'index')->name('tasks.my.responses');
     Route::post('/{task}/response', 'store')->name('tasks.response.store');
     Route::patch('/{task}/response/{response}', 'chooseExecutor')->name('tasks.response.choose');
-
-
-
 });

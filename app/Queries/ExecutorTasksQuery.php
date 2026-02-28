@@ -16,6 +16,7 @@ class ExecutorTasksQuery
     {
         return [
             'active' => $this->active($user),
+            'awaiting' => $this->awaiting($user),
             'completed' => $this->completed($user),
         ];
     }
@@ -23,6 +24,11 @@ class ExecutorTasksQuery
     public function active(User $user)
     {
         return Task::where('executor_id', $user->id)->where('status', TaskStatus::IN_PROGRESS)->latest()->get();
+    }
+
+    public function awaiting(User $user)
+    {
+        return Task::where('executor_id', $user->id)->where('status', TaskStatus::AWAITING_CONFIRMATION)->latest()->get();
     }
 
     public function completed(User $user)

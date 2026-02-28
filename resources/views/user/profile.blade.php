@@ -10,6 +10,17 @@
     @csrf
     <button type="submit">Logout</button>
 </form>
+@if (auth()->user()->role === \App\Enums\UserRole::EXECUTOR)
+@foreach(auth()->user()->unreadNotifications as $notification)
+    <a href="{{ route('tasks.show', $notification->data['task_id']) }}">
+        {{ $notification->data['message'] }}
+        <br>
+    </a>
+@endforeach
+<div>
+    🔔 ({{ auth()->user()->unreadNotifications->count() }})
+</div>
+@endif
 <h2>Мои задачи с откликами</h2>
 @if (auth()->user()->role === \App\Enums\UserRole::EXECUTOR)
     <a href="{{ route('tasks.my.responses') }}">

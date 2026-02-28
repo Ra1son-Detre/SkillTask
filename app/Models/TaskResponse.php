@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\TaskResponseStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -14,6 +15,12 @@ class TaskResponse extends Model
         'task_id',
     ];
 
+    protected function casts(): array
+    {
+        return [
+            'status' => TaskResponseStatus::class,
+        ];
+    }
     public function task() : BelongsTo
     {
         return $this->belongsTo(Task::class, 'task_id');

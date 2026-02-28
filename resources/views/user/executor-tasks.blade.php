@@ -56,6 +56,23 @@
 
 <hr>
 
+<h2>Ожидание подтверждение заказчиком.</h2>
+
+@forelse($tasks['awaiting'] as $task)
+    <div style="border:1px solid #ccc; padding:15px; margin-bottom:15px;">
+        <h3>{{ $task->title }}</h3>
+        <p><strong>Цена:</strong> {{ $task->price }}</p>
+        <p><strong>ID:</strong> {{ $task->id }}</p>
+        <p><strong>Статус:</strong> {{ $task->status->label() }}</p>
+
+        <a href="{{ route('tasks.show', $task) }}">
+            Смотреть задачу
+        </a>
+    </div>
+@empty
+    <p>У вас нет выполненных задач.</p>
+@endforelse
+
 <h2>Выполненные задачи</h2>
 
 @forelse($tasks['completed'] as $task)

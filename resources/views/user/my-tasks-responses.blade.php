@@ -6,6 +6,7 @@
     @foreach(auth()->user()->unreadNotifications as $notification)
         <a href="{{ route('tasks.show', $notification->data['task_id']) }}">
             {{ $notification->data['message'] }}
+            <br>
         </a>
     @endforeach
     <div>

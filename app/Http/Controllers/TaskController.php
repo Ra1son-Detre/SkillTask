@@ -11,7 +11,7 @@ use App\Queries\ExecutorTasksQuery;
 use App\Queries\GetTasksQuery;
 use App\Services\ReportCompletionActionService;
 use App\Services\TaskAcceptResponseService;
-use App\Services\TaskConfirmAndPay;
+use App\Services\TaskConfirmAndPayService;
 use Illuminate\Http\Request;
 use App\Models\Task;
 use App\Models\User;
@@ -88,8 +88,9 @@ class TaskController extends Controller
         return back()->with('success', 'Клиент уведомлен');
     }
 
-    public function confirmAndPay(Task $task, TaskConfirmAndPay $service)
+    public function confirmAndPay(Task $task, TaskConfirmAndPayService $service)
     {
+        $this->authorize('confirmAndPay', $task);
         $service->confirm($task, auth()->user());
         return redirect()->route('tasks.show', $task);
     }

@@ -2,9 +2,9 @@
 
 namespace App\Services;
 use App\Enums\TaskStatus;
+use App\Events\ExecutorCompletedTask;
 use App\Models\Task;
 use App\Models\User;
-use App\Notifications\ExecutorReportedCompletion;
 use Illuminate\Support\Facades\DB;
 class ReportCompletionActionService
 {
@@ -18,9 +18,7 @@ class ReportCompletionActionService
 
             $task->update(['status' => TaskStatus::AWAITING_CONFIRMATION]);
 
-            $task->client->notify(
-                new ExecutorReportedCompletion($task)
-            );
+            event(new ExecutorCompletedTask($task));
         });
     }
 }
