@@ -13,6 +13,7 @@
     <div>
     <label for="description">Описание</label>
     <textarea name="description"></textarea>
+        @error('description') <div> Некорректное имя</div>  @enderror
     </div>
 
     <br>

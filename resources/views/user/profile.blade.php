@@ -1,10 +1,12 @@
+@extends('layouts.app')
+@section('content')
 <h1>Profile</h1>
 <a href="{{route('tasks.index')}}">Main</a>
 <br>
-<p><strong>Name:</strong> {{ $user->name ?? null}}</p>
-<p><strong>Email:</strong> {{ $user->email ?? null}}</p>
-<p><strong>Registered at:</strong> {{ $user->created_at->format('Y-m-d H:i') ?? null}}</p>
-<p><strong>Role:</strong> {{ $user->role->label() ?? 'not installed' }}</p>
+<p><strong>Имя:</strong> {{ $user->name ?? null}}</p>
+<p><strong>Почта:</strong> {{ $user->email ?? null}}</p>
+<p><strong>Дата регистрации:</strong> {{ $user->created_at->format('Y-m-d H:i') ?? null}}</p>
+<p><strong>Роль:</strong> {{ $user->role->label() ?? 'not installed' }}</p>
 
 <form method="POST" action="{{ route('user.logout') }}">
     @csrf
@@ -34,3 +36,6 @@
     Мои задачи с откликами
 </a>
 @endif
+
+
+@endsection

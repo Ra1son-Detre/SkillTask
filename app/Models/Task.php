@@ -45,5 +45,9 @@ class Task extends Model
         return $this->hasMany(Transaction::class, 'task_id');
     }
 
+    public function viewResponseForm (User $user) :bool
+    {
+        return $this->responses()->where('executor_id', $user->id)->exists();
+    }
 
 }

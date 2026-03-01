@@ -65,6 +65,10 @@ class TaskPolicy
         return $user->id === $task->client_id && $task->status === TaskStatus::PUBLISHED && $task->executor_id === null;
     }
 
+    public function completeByExecutor(User $user, Task $task): bool
+    {
+        return $user->id === $task->executor_id && $task->status === TaskStatus::IN_PROGRESS;
+    }
     public  function confirmAndPay(User $user, Task $task): bool
     {
         return $user->id === $task->client_id && $task->status === TaskStatus::AWAITING_CONFIRMATION;

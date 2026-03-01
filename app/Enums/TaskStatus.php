@@ -16,17 +16,22 @@ enum TaskStatus: string
         return match ($this) {
             self::DRAFT => 'Черновик',
             self::PUBLISHED => 'Опубликована',
-            self::IN_PROGRESS => 'В работе',
+            self::IN_PROGRESS => 'В работе ',
             self::AWAITING_CONFIRMATION => 'Ожидание подтверждения',
             self::COMPLETED => 'Выполнен',
             self::CANCELLED => 'Отменен',
         };
-
-
     }
 
-
-
-
-
+    public function emoji()
+    {
+        return match ($this) {
+            self::DRAFT => '📝',
+            self::PUBLISHED => '📢',
+            self::IN_PROGRESS => '⚙️',
+            self::AWAITING_CONFIRMATION => '⌛',
+            self::COMPLETED => '✅',
+            self::CANCELLED => '❌',
+        };
+    }
 }
