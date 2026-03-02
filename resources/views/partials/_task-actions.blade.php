@@ -79,18 +79,17 @@
 @can('completeByExecutor', $task)
 <div class="card shadow-sm mb-4">
     <div class="card-body">
-        <h5 class="mb-3">Действия</h5>
-        <div class="d-flex flex-wrap gap-2">
 
-                <form method="POST"
-                      action="{{ route('tasks.report', $task) }}">
-                    @csrf
-                    @method('PATCH')
 
-                    <button class="btn btn-success">
-                        Сообщить о выполнении работы
-                    </button>
-                </form>
+        <form method="POST"
+              action="{{ route('tasks.report', $task) }}">
+            @csrf
+            @method('PATCH')
+
+            <button class="btn btn-warning">
+                Работа выполнена
+            </button>
+        </form>
 
         </div>
 

@@ -4,8 +4,6 @@ namespace App\Listeners\ExecutorCompleted;
 
 use App\Events\ExecutorCompletedTask;
 use App\Notifications\ExecutorReportedCompletion;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 
 class ExecutorCompletedTaskNotification
 {

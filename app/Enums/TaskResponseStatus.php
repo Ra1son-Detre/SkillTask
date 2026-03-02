@@ -17,4 +17,13 @@ enum TaskResponseStatus: string
         };
     }
 
+    public function emoji() :string
+    {
+        return match ($this) {
+            self::PENDING =>'👀',
+            self::ACCEPTED =>'✅',
+            self::REJECTED =>'❌',
+        };
+    }
+
 }

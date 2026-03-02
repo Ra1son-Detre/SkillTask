@@ -17,7 +17,20 @@ class TaskPolicy
 
     public function view(User $user, Task $task): bool
     {
-        return $user->id === $task->client_id || $user->role === UserRole::ADMIN ||$user->role === UserRole::EXECUTOR;
+        if($user->role === UserRole::ADMIN){
+            return true;
+        };
+        if(($user->role === UserRole::CLIENT) && ($user->id === $task->client_id)){
+            return true;
+        }
+        if($user->id === $task->executor_id){
+            return true;
+        }
+        if($user->role === UserRole::EXECUTOR && $task->status === TaskStatus::PUBLISHED){
+            return true;
+        }
+
+        return false;
     }
 
     public function create(User $user): bool

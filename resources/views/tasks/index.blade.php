@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     @include('partials._task-sections')
-
+@include(('partials._task-filter'))
 
     <h1 class="mb-4">Мои задачи: </h1>
 
@@ -15,6 +15,11 @@
                         <h5>{{ $task->title }}</h5>
                         <p class="mb-0">{{ $task->price }}  ₽</p>
                         <p class="mb-0">{{ $task->status->label()}} {{$task->status->emoji()}}  </p>
+                        @if(($task->responses_count ?? 0) > 0)
+                            <span class="position-absolute top-0 end-0 badge bg-danger">
+                    🔔 {{ $task->responses_count }}
+                </span>
+                        @endif
                     </div>
                 </a>
 

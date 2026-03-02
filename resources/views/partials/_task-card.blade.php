@@ -4,7 +4,7 @@
         <div class="d-flex justify-content-between align-items-center">
             <h3 class="mb-0">{{ $task->title }}</h3>
 
-            <span class="badge bg-secondary">
+            <span class="badge {{$task->status->statusColor()}}">
                 {{ $task->status->label() }}
             </span>
         </div>

@@ -2,58 +2,24 @@
 @section('content')
 <h1>Задача:</h1>
 @include('partials._task-card')
-@include('partials._task-actions')
 @include('partials._response-form')
+@include('partials._responses-show')
+@include('partials._executor-state')
+@include('partials._task-actions')
 
-@if($task->executor)
-    <p>
-        <strong>Текущий исполнитель:</strong>
-        {{ $task->executor->name }}
-    </p>
-@endif
+@if($task->executor && auth()->user()->role === \App\Enums\UserRole::CLIENT)
+    <div class="border rounded p-3 mb-4 bg-light">
 
-<hr>
-
-@if(auth()->id() === $task->client_id)
-    <h2>Отклики</h2>
-
-    @forelse($task->responses as $response)
-        <div >
-            ---------------------------------------
-            <p>
-                <strong>Исполнитель:</strong>
-                {{ $response->executor->name }}
-            </p>
-
-            <p>
-                <strong>Сообщение:</strong>
-                {{ $response->message }}
-            </p>
-
-            <p>
-                <strong>Отправлено:</strong>
-                {{ $response->created_at->format('Y-m-d H:i') }}
-            </p>
-            @can('choose-executor', $task)
-                <form action="{{ route('tasks.response.choose', [$task, $response]) }}" method="POST">
-                @csrf
-                @method('PATCH')
-
-                <button type="submit">
-                    Подтвердить исполнителя
-                </button>
-            </form>
-                @endcan
-            -------------------------------------
+        <div class="text-muted small mb-1">
+            Исполнитель задачи
         </div>
-    @empty
-        <p>Пока нет откликов.</p>
-    @endforelse
+
+        <div class="fs-4 fw-bold">
+            {{ $task->executor->name }}
+        </div>
+
+    </div>
 @endif
-
-
-
-
 
 
 @endsection

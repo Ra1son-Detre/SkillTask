@@ -17,7 +17,7 @@ Route::prefix('email/verify')->group(function () {
    Route::get('', function () {
        return view('auth.verify-email');})->middleware('auth')->name('verification.notice');
 
-   Route::get('{id}/{hash}', function (EmailVerificationRequest $request) {
+   Route::get('{id}/{hash}', function (EmailVerificationRequest $request) { //todo Разобраться полностью от а до я
        $request->fulfill();
        return redirect()->route('tasks.index');})->middleware(['auth', 'signed'])->name('verification.verify');
 

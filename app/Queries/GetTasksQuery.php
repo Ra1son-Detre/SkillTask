@@ -30,6 +30,8 @@ class GetTasksQuery
         };
     }
 
+
+
     public function filters(Request $request, $query)
     {
         if ($request->filled('search')) {

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\UserRole;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -49,5 +50,35 @@ class Task extends Model
     {
         return $this->responses()->where('executor_id', $user->id)->exists();
     }
+
+    public function viewExecutorState (User $user) :?string
+    {
+        if($user->role !== UserRole::EXECUTOR){
+            return null;
+        };
+
+        if($this->status === TaskStatus::PUBLISHED){
+            if($this->viewResponseForm($user)){
+                return 'responded';
+            }
+            return 'can_respond';
+        }
+
+        if($this->status === TaskStatus::IN_PROGRESS && $this->executor_id === $user->id){
+            return 'progress';
+        }
+
+        if($this->status === TaskStatus::AWAITING_CONFIRMATION && $this->executor_id === $user->id){
+            return 'awaiting_confirmation';
+        }
+
+        if($this->status === TaskStatus::COMPLETED && $this->executor_id === $user->id){
+            return 'completed';
+        }
+
+        return null;
+    }
+
+//
 
 }

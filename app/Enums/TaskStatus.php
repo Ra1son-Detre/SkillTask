@@ -23,7 +23,7 @@ enum TaskStatus: string
         };
     }
 
-    public function emoji()
+    public function emoji() :string
     {
         return match ($this) {
             self::DRAFT => '📝',
@@ -32,6 +32,18 @@ enum TaskStatus: string
             self::AWAITING_CONFIRMATION => '⌛',
             self::COMPLETED => '✅',
             self::CANCELLED => '❌',
+        };
+    }
+
+    public function statusColor() :string
+    {
+        return match ($this) {
+            self::DRAFT => 'bg-secondary',
+            self::PUBLISHED => 'bg-primary',
+            self::IN_PROGRESS => 'bg-warning text-dark',
+            self::AWAITING_CONFIRMATION => 'bg-info text-dark',
+            self::COMPLETED => 'bg-success',
+            self::CANCELLED => 'danger',
         };
     }
 }
