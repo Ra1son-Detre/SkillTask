@@ -10,6 +10,7 @@ use App\Queries\UniversalPageQuery;
 use App\Services\ReportCompletionActionService;
 use App\Services\TaskConfirmAndPayService;
 use Illuminate\Http\Request;
+use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 
 class TaskController extends Controller
 {

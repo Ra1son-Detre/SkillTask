@@ -7,6 +7,9 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TaskResponseController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\Admin\AdminTaskController;
 use Illuminate\Support\Facades\Mail;
 
 Route::get('/', function () {
@@ -66,4 +69,27 @@ Route::middleware(['auth', 'verified'])->controller(TaskResponseController::clas
     Route::get('/my-responses', 'index')->name('tasks.my.responses');
     Route::post('/{task}/response', 'store')->name('tasks.response.store');
     Route::patch('/{task}/response/{response}', 'chooseExecutor')->name('tasks.response.choose');
+});
+
+Route::middleware(['admin', 'auth'])->prefix('admin')->group(function () {
+    Route::get('/', function () {
+        return 'admin panel';
+    });
+});
+
+Route::middleware(['admin', 'auth', 'verified'])->prefix('admin')->group(function () {
+
+    Route::controller(AdminDashboardController::class)->group(function () {
+        Route::get('/', 'index')->name('admin.dashboard');
+    });
+
+    Route::controller(AdminUserController::class)->group(function () {
+        Route::get('/', 'index')->name('admin.index');
+        Route::patch('/{user}/block', 'toggleBlock')->name('admin.users.block');
+    });
+
+    Route::controller(AdminTaskController::class)->group(function () {
+        Route::get('/tasks', 'index')->name('admin.tasks');
+        Route::patch('/tasks/{task}/status', 'changeStatus')->name('admin.tasks.status');
+    });
 });

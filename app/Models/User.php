@@ -11,7 +11,7 @@ use App\Enums\UserRole;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasFactory, Notifiable;
+    use Notifiable;
 
     protected $fillable = [
         'name',
@@ -19,13 +19,13 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'avatar',
         'role',
+        'is_blocked',
     ];
 
     protected $hidden = [
         'password',
         'remember_token',
     ];
-
 
     protected function casts(): array
     {
@@ -61,12 +61,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Transaction::class, 'to_user_id');
     }
 
-    public function allExecutorResponses()
+    public function isAdmin(): bool
     {
-
+        return $this->role === UserRole::ADMIN;
     }
-
-
     public function isClient() :bool
     {
         return $this->role === UserRole::CLIENT;
