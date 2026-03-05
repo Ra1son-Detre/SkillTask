@@ -84,12 +84,14 @@ Route::middleware(['admin', 'auth', 'verified'])->prefix('admin')->group(functio
     });
 
     Route::controller(AdminUserController::class)->group(function () {
-        Route::get('/', 'index')->name('admin.index');
-        Route::patch('/{user}/block', 'toggleBlock')->name('admin.users.block');
+        Route::get('/users', 'index')->name('admin.users');
+        Route::get('/users/{user}/show',  'showUserInfo')->name('admin.user.show');
+        Route::patch('/{user}/block', 'toggleBlock')->name('admin.user.block');
     });
 
     Route::controller(AdminTaskController::class)->group(function () {
         Route::get('/tasks', 'index')->name('admin.tasks');
+        Route::get('/tasks/{task}/show',  'showTask')->name('admin.task.show');
         Route::patch('/tasks/{task}/status', 'changeStatus')->name('admin.tasks.status');
     });
 });

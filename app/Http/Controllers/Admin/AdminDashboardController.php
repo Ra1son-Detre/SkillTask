@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Queries\AdminDashboardQuery;
 
 class AdminDashboardController extends Controller
 {
-    public function index()
+    public function index(AdminDashboardQuery $query)
     {
-        return view('admin.dashboard');
+        $statistics = $query->globalInfo();
+
+        return view('admin.dashboard', compact('statistics'));
     }
 }

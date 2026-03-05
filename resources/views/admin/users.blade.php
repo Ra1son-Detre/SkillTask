@@ -1,32 +1,81 @@
-<h1>Users List</h1>
+@extends('layouts.admin')
 
-<table border="1" cellpadding="5">
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Role</th>
-        <th>Actions</th>
-    </tr>
+@section('content')
+    @include('admin.filters.filter_users')
 
-    @foreach($users as $user)
+    <table class="table table-striped table-bordered align-middle">
+
+        <thead class="table-dark">
         <tr>
-            <td>{{ $user->id }}</td>
-            <td>{{ $user->name }}</td>
-            <td>{{ $user->email }}</td>
-            <td>{{ $user->role->value }}</td>
-            <td>
-                <form action="{{ route('admin.users.block', $user) }}" method="POST">
-                    @csrf
-                    @method('PATCH')
-
-                    <button type="submit">
-                        {{ $user->is_blocked ? 'Unblock' : 'Block' }}
-                    </button>
-                </form>
-            </td>
+            <th>ID</th>
+            <th>Имя</th>
+            <th>Email</th>
+            <th>Роль</th>
+            <th>Статус</th>
+            <th>Дата регистрации</th> <!-- Новая колонка -->
+            <th width="150">Действия</th>
         </tr>
-    @endforeach
-</table>
+        </thead>
 
+        <tbody>
+
+        @foreach($users as $user)
+
+            <tr>
+
+                <td>{{ $user->id }}</td>
+
+                <td>
+                    <a href="{{ route('admin.user.show', $user) }}">
+                        {{ $user->name }}
+                    </a>
+                </td>
+
+                <td>{{ $user->email }}</td>
+
+                <td>
+                <span class="badge bg-info">
+                    {{ $user->role }}
+                </span>
+                </td>
+
+                <td>
+                    @if($user->is_blocked)
+                        <span class="badge bg-danger">Забанен</span>
+                    @else
+                        <span class="badge bg-success">Активен</span>
+                    @endif
+                </td>
+
+                <td class="text-center"> <!-- Новая ячейка с датой -->
+                    {{ $user->created_at->format('d.m.Y H:i') }}
+                </td>
+
+                <td>
+                    <form method="POST"
+                          action="{{ route('admin.user.block', $user) }}">
+                        @csrf
+                        @method('PATCH')
+
+                        @if($user->is_blocked)
+                            <button class="btn btn-success btn-sm">
+                                Разбанить
+                            </button>
+                        @else
+                            <button class="btn btn-danger btn-sm">
+                                Забанить
+                            </button>
+                        @endif
+                    </form>
+                </td>
+
+            </tr>
+
+        @endforeach
+
+        </tbody>
+
+    </table>
+
+@endsection
 
