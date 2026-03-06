@@ -1,16 +1,15 @@
 <?php
 
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\TaskController;
-use App\Http\Controllers\TaskResponseController;
+use App\Http\Controllers\web\Admin\AdminDashboardController;
+use App\Http\Controllers\web\Admin\AdminTaskController;
+use App\Http\Controllers\web\Admin\AdminUserController;
+use App\Http\Controllers\web\Auth\LoginController;
+use App\Http\Controllers\web\Auth\RegisterController;
+use App\Http\Controllers\web\TaskController;
+use App\Http\Controllers\web\TaskResponseController;
+use App\Http\Controllers\web\UserController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\AdminDashboardController;
-use App\Http\Controllers\Admin\AdminUserController;
-use App\Http\Controllers\Admin\AdminTaskController;
-use Illuminate\Support\Facades\Mail;
 
 Route::get('/', function () {
     return view('welcome');

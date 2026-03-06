@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Requests\Task;
+namespace App\Http\Requests\web\Task;
 
-use App\Enums\TaskStatus;
 use Illuminate\Foundation\Http\FormRequest;
 
 class TaskUpdateRequest extends FormRequest

@@ -1,14 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\web;
 
-use App\Http\Requests\Task\TaskResponseRequest;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\web\Task\TaskResponseRequest;
 use App\Models\Task;
+use App\Models\TaskResponse;
 use App\Queries\ExecutorTasksQuery;
 use App\Services\TaskAcceptResponseService;
-use Illuminate\Http\Request;
-use App\Models\TaskResponse;
 use App\Services\TaskResponseService;
+use Illuminate\Http\Request;
+
 class TaskResponseController extends Controller
 {
     public function __construct(

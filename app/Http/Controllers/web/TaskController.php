@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\web;
 
 use App\Enums\TaskStatus;
-use App\Http\Requests\Task\TaskStoreRequest;
-use App\Http\Requests\Task\TaskUpdateRequest;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\web\Task\TaskStoreRequest;
+use App\Http\Requests\web\Task\TaskUpdateRequest;
 use App\Models\Task;
 use App\Queries\UniversalPageQuery;
 use App\Services\ReportCompletionActionService;

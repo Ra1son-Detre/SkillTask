@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\web\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Task;
-use Illuminate\Http\Request;
 use App\Models\User;
 use App\Queries\AdminUserQuery;
+use Illuminate\Http\Request;
 
 
 class AdminUserController extends Controller

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace App\Http\Requests\web\Auth;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Enums\UserRole;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 class RegisterRequest extends FormRequest

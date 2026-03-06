@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\web\Admin;
 
 use App\Enums\TaskStatus;
 use App\Http\Controllers\Controller;
+use App\Models\Task;
 use App\Queries\AdminTaskQuery;
 use Illuminate\Http\Request;
-use App\Models\Task;
 use Illuminate\Validation\Rules\Enum;
 
 class AdminTaskController extends Controller
