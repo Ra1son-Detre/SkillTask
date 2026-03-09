@@ -41,10 +41,8 @@ Route::middleware('guest')->group(function () {
 
 
 Route::middleware(['auth', 'verified'])->prefix('profile')->controller(UserController::class)->group(function () {
-
         Route::get('/', 'show')->name('user.profile');
         Route::post('/logout', 'logout')->name('user.logout');
-
         Route::get('/tasks/responses', 'myTasksResponses')->name('user.tasks.responses');
     });
 
@@ -65,16 +63,11 @@ Route::middleware(['auth', 'verified'])->prefix('tasks')->controller(TaskControl
 });
 
 Route::middleware(['auth', 'verified'])->controller(TaskResponseController::class)->group(function () {
-    Route::get('/my-responses', 'index')->name('tasks.my.responses');
+    Route::get('/my-responses', 'index')->name('tasks.my.responses'); //todo (устарело вывод откликов на странице задачи удалить не нарушив целостность)
     Route::post('/{task}/response', 'store')->name('tasks.response.store');
     Route::patch('/{task}/response/{response}', 'chooseExecutor')->name('tasks.response.choose');
 });
 
-Route::middleware(['admin', 'auth'])->prefix('admin')->group(function () {
-    Route::get('/', function () {
-        return 'admin panel';
-    });
-});
 
 Route::middleware(['admin', 'auth', 'verified'])->prefix('admin')->group(function () {
 

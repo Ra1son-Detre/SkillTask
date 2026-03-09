@@ -6,6 +6,7 @@ use App\Models\Task;
 use App\Policies\TaskPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Pagination\Paginator;
 
 class   AppServiceProvider extends ServiceProvider
 {
@@ -17,5 +18,7 @@ class   AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Gate::policy(Task::class, TaskPolicy::class);
+
+        Paginator::useBootstrap();
     }
 }

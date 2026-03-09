@@ -28,5 +28,6 @@
 
     </div>
 </div>
+    {{ $tasks->links() }}
 @endsection
 

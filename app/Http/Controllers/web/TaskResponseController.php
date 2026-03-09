@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\web\Task\TaskResponseRequest;
 use App\Models\Task;
 use App\Models\TaskResponse;
-use App\Queries\ExecutorTasksQuery;
+use App\Queries\UniversalPageQuery;
 use App\Services\TaskAcceptResponseService;
 use App\Services\TaskResponseService;
 use Illuminate\Http\Request;
@@ -17,10 +17,10 @@ class TaskResponseController extends Controller
         protected TaskResponseService $taskResponseService,
         protected TaskAcceptResponseService $taskAcceptResponseService)
     {}
-    public function index(ExecutorTasksQuery $query, Request $request)
+    public function index(UniversalPageQuery $query, Request $request) //todo "Устарело вывод откликов для клиента на самой задаче, отрефакторить и дуалить"
     {
-        $tasks = $query->get(auth()->user());
-
+        $tasks = $query->get($request, auth()->user());
+        dd($tasks);
         return view('user.executor-tasks', compact('tasks'));
     }
     public function store(Task $task, TaskResponseRequest $request)

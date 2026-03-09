@@ -18,7 +18,7 @@ class RegisterController extends Controller
 
         $user = User::create($validated);
 
-        $token = $user->createToken('api-token')->plainTextToken;
+
 
         return response()->json([
             'user' => [
@@ -26,8 +26,7 @@ class RegisterController extends Controller
                 'name' => $user->name,
                 'email' => $user->email,
                 'role' => $user->role->label(),
-            ],
-            'token' => $token,
+            ]
         ], 201);
     }
 }

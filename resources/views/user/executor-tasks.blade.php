@@ -26,7 +26,7 @@
 
 <h2>Задачи в работе</h2>
 
-@forelse($tasks['active'] as $task)
+@forelse($tasks['in'] as $task)
     <div style="border:1px solid #ccc; padding:15px; margin-bottom:15px;">
         <h3>{{ $task->title }}</h3>
         <p><strong>Цена:</strong> {{ $task->price }}</p>

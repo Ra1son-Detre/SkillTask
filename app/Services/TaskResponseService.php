@@ -18,6 +18,12 @@ class TaskResponseService
         if($task->status !== TaskStatus::PUBLISHED) {
             abort(403);
         }
+        if($task->executor_id !== null) {
+            abort(403);
+        }
+//        if($task->responses()->where('executor_id', $user->id)->exists()) {
+//            abort(403);
+//        }
 
         TaskResponse::create([
             'task_id' => $task->id,

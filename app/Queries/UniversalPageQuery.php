@@ -15,7 +15,9 @@ public function get(Request $request, User $user)
     $this->pageStatus($query, $request->query('status'), $user);
     $this->filters($request, $query);
 
-    return $query->get();
+    return $query
+        ->paginate(15)
+        ->withQueryString();
 }
 
 public function userRole($query, User $user)

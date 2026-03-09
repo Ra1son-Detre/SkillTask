@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Api\V1;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -9,12 +9,15 @@ class TaskResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
-        return[
+        return [
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
             'price' => $this->price,
             'status' => $this->status?->label(),
+            'responses' => TaskResponseResource::collection($this->whenLoaded('responses')),
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 }
