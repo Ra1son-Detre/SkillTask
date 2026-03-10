@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\v1\Admin\AdminUserController;
 use App\Http\Controllers\Api\v1\Admin\AdminDashboardController;
 use App\Http\Controllers\Api\v1\Admin\AdminTaskController;
+use App\Http\Controllers\Api\v1\ProfileController;
 
 
 Route::get('/test', function () {
@@ -22,6 +23,15 @@ Route::prefix('v1')->group(function () {
 
 
     Route::middleware('auth:sanctum')->group(function () {
+
+        Route::controller(ProfileController::class)->group(function () {
+            Route::prefix('profile')->controller(ProfileController::class)->group(function () {
+                Route::get('/', 'show');
+                Route::patch('/', 'update');
+                Route::post('/logout', 'logout');
+            });
+        });
+
 
         Route::controller(TaskController::class)->group(function () {
             Route::get('/tasks','index');
@@ -42,6 +52,7 @@ Route::prefix('v1')->group(function () {
 
         Route::prefix('admin')->group(function () {
             Route::middleware('admin')->group(function () {
+
                 Route::controller(AdminUserController::class)->group(function () {
                     Route::get('/users','index');
                     Route::get('/users/{user}/show','showUserInfo');
@@ -54,7 +65,7 @@ Route::prefix('v1')->group(function () {
                     Route::patch('/tasks/{task}/edit/status', 'changeStatus');
                 });
 
-                Route::get('/tasks/dashboard',[AdminDashboardController::class,'globalStats'] );
+                Route::get('/dashboard',[AdminDashboardController::class,'globalStats'] );
 
             });
         });
