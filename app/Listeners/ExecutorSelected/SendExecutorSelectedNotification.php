@@ -5,9 +5,10 @@ namespace App\Listeners\ExecutorSelected;
 use App\Events\ExecutorSelected;
 use App\Notifications\ExecutorSelectedNotification;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 
-class SendExecutorSelectedNotification
+class SendExecutorSelectedNotification implements ShouldQueue
 {
     public function __construct()
     {

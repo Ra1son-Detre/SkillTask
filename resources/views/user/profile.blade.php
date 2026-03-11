@@ -1,41 +1,29 @@
 @extends('layouts.app')
+
 @section('content')
-<h1>Profile</h1>
-<a href="{{route('tasks.index')}}">Main</a>
-<br>
-<p><strong>Имя:</strong> {{ $user->name ?? null}}</p>
-<p><strong>Почта:</strong> {{ $user->email ?? null}}</p>
-<p><strong>Дата регистрации:</strong> {{ $user->created_at->format('Y-m-d H:i') ?? null}}</p>
-<p><strong>Роль:</strong> {{ $user->role->label() ?? 'not installed' }}</p>
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm mt-5">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4">Профиль пользователя</h2>
 
-<form method="POST" action="{{ route('user.logout') }}">
-    @csrf
-    <button type="submit">Logout</button>
-</form>
-@if (auth()->user()->role === \App\Enums\UserRole::EXECUTOR)
-@foreach(auth()->user()->unreadNotifications as $notification)
-    <a href="{{ route('tasks.show', $notification->data['task_id']) }}">
-        {{ $notification->data['message'] }}
-        <br>
-    </a>
-@endforeach
-<div>
-    🔔 ({{ auth()->user()->unreadNotifications->count() }})
-</div>
-@endif
-<h2>Мои задачи с откликами</h2>
-@if (auth()->user()->role === \App\Enums\UserRole::EXECUTOR)
-    <a href="{{ route('tasks.my.responses') }}">
-        Мои задачи
-    </a>
-    <br>
-@endif
+                    <p><strong>Имя:</strong> {{ $user->name }}</p>
+                    <p><strong>Email:</strong> {{ $user->email }}</p>
+                    <p><strong>Роль:</strong> {{ $user->role?->label() ?? '-' }}</p>
 
-@if (auth()->user()->role === \App\Enums\UserRole::CLIENT)
-<a href="{{ route('user.tasks.responses') }}">
-    Мои задачи с откликами
-</a>
-@endif
+                    <form method="POST" action="{{ route('user.logout') }}" class="mb-3">
+                        @csrf
+                        <button type="submit" class="btn btn-danger w-100">Выйти</button>
+                    </form>
 
+                    @include('partials._notifications')
 
+                    <div class="text-center mt-3">
+                        <a href="{{ route('tasks.index') }}">На главную</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
+

@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Enums\TaskStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\v1\Task\TaskStoreRequest;
 use App\Http\Requests\Api\v1\Task\TaskUpdateRequest;
 use App\Http\Resources\Api\V1\TaskResource;
 use App\Models\Task;
 use App\Queries\UniversalPageQuery;
+use App\Services\CancelledTaskService;
 use App\Services\CrudService;
 use App\Services\ReportCompletionActionService;
 use App\Services\TaskConfirmAndPayService;
@@ -20,6 +22,7 @@ class TaskController extends Controller
         protected CrudService $crudService,
         protected TaskConfirmAndPayService $taskConfirmAndPayService,
         protected ReportCompletionActionService $reportCompletionActionService,
+        protected CancelledTaskService $cancelledTaskService,
     ){}
 
     public function index(Request $request, UniversalPageQuery $query)
@@ -47,6 +50,34 @@ class TaskController extends Controller
         }
 
         return  new TaskResource($task);
+    }
+
+    public function publish(Task $task)
+    {
+        $this->authorize('publish', $task);
+
+        $task->update(['status' => TaskStatus::PUBLISHED]);
+
+        return response()->json('Задача опубликована');
+
+    }
+
+    public function draft(Task $task)
+    {
+        $this->authorize('draft', $task);
+
+        $task->update(['status' => TaskStatus::DRAFT]);
+
+        return response()->json('Задача переведена в черновик');
+    }
+
+    public function cancel(Task $task)
+    {
+        $this->authorize('cancel', $task);
+
+        $this->cancelledTaskService->cancel($task);
+
+        return response()->json('Задача отменена');
     }
 
     public function update(TaskUpdateRequest $request, Task $task)

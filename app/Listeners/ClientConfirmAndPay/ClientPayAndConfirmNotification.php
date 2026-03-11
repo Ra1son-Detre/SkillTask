@@ -4,8 +4,9 @@ namespace App\Listeners\ClientConfirmAndPay;
 
 use App\Events\ClientPayAndConfirm;
 use App\Notifications\ClientPayNotification;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class ClientPayAndConfirmNotification
+class ClientPayAndConfirmNotification implements ShouldQueue
 {
 
     public function __construct()

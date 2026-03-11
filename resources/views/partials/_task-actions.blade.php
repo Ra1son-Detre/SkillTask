@@ -1,4 +1,4 @@
-@canany(['update', 'delete', 'publish', 'draft', 'confirm-and-pay',], $task)
+@canany(['update', 'delete', 'publish', 'draft', 'confirm-and-pay', 'cancel'], $task)
     <div class="card shadow-sm mb-4">
     <div class="card-body">
 
@@ -29,7 +29,7 @@
             @endcan
 
             {{-- Опубликовать --}}
-            @if($task->status === \App\Enums\TaskStatus::DRAFT)
+            @if($task->status === \App\Enums\TaskStatus::DRAFT || $task->status === \App\Enums\TaskStatus::CANCELLED )
                 @can('publish', $task)
                     <form method="POST"
                           action="{{ route('tasks.publish', $task) }}">
@@ -47,6 +47,18 @@
             @can('draft', $task)
                 <form method="POST"
                       action="{{ route('tasks.draft', $task) }}">
+                    @csrf
+                    @method('PATCH')
+
+                    <button class="btn btn-secondary">
+                        В черновики
+                    </button>
+                </form>
+            @endcan
+
+            @can('cancel', $task)
+                <form method="POST"
+                      action="{{ route('tasks.cancel', $task) }}">
                     @csrf
                     @method('PATCH')
 

@@ -42,8 +42,10 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware(['auth', 'verified'])->prefix('profile')->controller(UserController::class)->group(function () {
         Route::get('/', 'show')->name('user.profile');
+        Route::patch('/', 'update')->name('user.profile.update');
         Route::post('/logout', 'logout')->name('user.logout');
         Route::get('/tasks/responses', 'myTasksResponses')->name('user.tasks.responses');
+
     });
 
 
@@ -58,6 +60,7 @@ Route::middleware(['auth', 'verified'])->prefix('tasks')->controller(TaskControl
     Route::patch('/{task}', 'update')->name('tasks.update');
     Route::delete('/{task}', 'destroy')->name('tasks.destroy');
     Route::patch('/{task}/publish', 'publish')->name('tasks.publish');
+    Route::patch('/{task}/cancelled', 'cancel')->name('tasks.cancel');
     Route::patch('/{task}/draft', 'draft')->name('tasks.draft');
     Route::patch('/{task}/confirm', 'confirmAndPay')->name('tasks.confirmAndPay');
 });

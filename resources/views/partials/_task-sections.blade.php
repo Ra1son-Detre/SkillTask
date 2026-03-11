@@ -25,6 +25,10 @@
         ✅ Выполненные
     </a>
 
+    <a href="{{ route('tasks.index', ['status' => 'cancelled']) }}" class="btn btn-danger">
+        ✖ Отмененные
+    </a>
+
 </div>
 @endif
 

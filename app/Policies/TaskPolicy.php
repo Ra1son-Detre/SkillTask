@@ -60,7 +60,12 @@ class TaskPolicy
 
     public function publish(User $user, Task $task): bool
     {
-        return $user->id === $task->client_id && $task->status === TaskStatus::DRAFT;
+        return $user->id === $task->client_id && ($task->status === TaskStatus::DRAFT || $task->status === TaskStatus::CANCELLED);
+    }
+
+    public  function cancel(User $user, Task $task): bool
+    {
+        return $user->id === $task->client_id &&  $task->status === TaskStatus::IN_PROGRESS;
     }
 
     public function draft(User $user, Task $task): bool

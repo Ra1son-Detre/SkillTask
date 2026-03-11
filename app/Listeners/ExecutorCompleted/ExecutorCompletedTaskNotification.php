@@ -4,8 +4,9 @@ namespace App\Listeners\ExecutorCompleted;
 
 use App\Events\ExecutorCompletedTask;
 use App\Notifications\ExecutorReportedCompletion;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class ExecutorCompletedTaskNotification
+class ExecutorCompletedTaskNotification implements ShouldQueue
 {
 
     public function __construct()

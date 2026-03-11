@@ -43,7 +43,7 @@ enum TaskStatus: string
             self::IN_PROGRESS => 'bg-warning text-dark',
             self::AWAITING_CONFIRMATION => 'bg-info text-dark',
             self::COMPLETED => 'bg-success',
-            self::CANCELLED => 'danger',
+            self::CANCELLED => 'bg-danger',
         };
     }
 }

@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Api\v1\Profile;
+namespace App\Http\Requests\web\User;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class ProfileRequest extends FormRequest
+class ProfileEditRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,8 +22,8 @@ class ProfileRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|min:2|max:255',
-            'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg'],
+            'name' => ['required', 'string', 'min:2', 'max:255'],
+            'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
             'current_password' => 'required_with:password|current_password',
             'password' => 'nullable|string|min:1|confirmed',
         ];

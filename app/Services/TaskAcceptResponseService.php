@@ -7,7 +7,6 @@ use App\Enums\TaskStatus;
 use App\Events\ExecutorSelected;
 use App\Models\Task;
 use App\Models\TaskResponse;
-use App\Models\User;
 use App\Notifications\ExecutorSelectedNotification;
 use Illuminate\Support\Facades\DB;
 

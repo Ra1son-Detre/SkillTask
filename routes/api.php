@@ -41,6 +41,7 @@ Route::prefix('v1')->group(function () {
             Route::patch('/tasks/{task}','update');
             Route::patch('/tasks/{task}/publish','publish');
             Route::patch('/tasks/{task}/draft','draft');
+            Route::patch('/tasks/{task}/cancel','cancel');
             Route::patch('/tasks/{task}/execute','completeTask');
             Route::patch('/tasks/{task}/confirm','confirmAndPay');
         });

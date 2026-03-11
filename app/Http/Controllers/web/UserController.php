@@ -3,15 +3,26 @@
 namespace App\Http\Controllers\web;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\web\User\ProfileEditRequest;
+use App\Services\ProfileService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    public function __construct(
+        protected ProfileService $profileService
+    ){}
+
     public function show()
     {
         $user = auth()->user();
-//        dd($user);
-        return view('user.profile', compact('user'));
+        $tasks = $user->get();
+        $notifications = $user->unreadNotifications;
+
+
+
+        return view('user.profile', compact('user', 'notifications', 'tasks'));
     }
 
     public function logout(Request $request)
@@ -22,7 +33,7 @@ class UserController extends Controller
         return redirect(route('login'));
     }
 
-    public function myTasksResponses()
+    public function myTasksResponses() // todo "Устаревший метод убрать или изменить не нарушая работу"
     {
         $user = auth()->user();
         $tasks = $user->clientTasks()->whereHas('responses')
@@ -37,14 +48,9 @@ class UserController extends Controller
     }
 
 
-    public function update(Request $request, string $id)
+    public function update(ProfileEditRequest $request)
     {
-        //
+        $data = $request->validated();
     }
 
-
-    public function destroy(string $id)
-    {
-        //
-    }
 }

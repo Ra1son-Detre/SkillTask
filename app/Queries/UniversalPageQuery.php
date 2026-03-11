@@ -51,6 +51,8 @@ public function pageStatus ($query, $status, User $user)
 
             'completed' => $query->where('status', TaskStatus::COMPLETED),
 
+            'cancelled' => $query->where('status', TaskStatus::CANCELLED),
+
             default => $query,
         };
     }

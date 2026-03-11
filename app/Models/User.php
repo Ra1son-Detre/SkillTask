@@ -70,4 +70,5 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->role === UserRole::CLIENT;
     }
 
+
 }
