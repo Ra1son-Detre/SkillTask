@@ -8,13 +8,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class ClientPayAndConfirmNotification implements ShouldQueue
 {
-
-    public function __construct()
-    {
-
-    }
-
-
     public function handle(ClientPayAndConfirm $event): void
     {
         $event->task->executor->notify(new ClientPayNotification($event->task));

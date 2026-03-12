@@ -23,8 +23,6 @@ class ProfileController extends Controller
     {
         $user = $request->user();
 
-        $this->authorize('update', $user);
-
         $data = $request->validated();
 
         if($request->filled('password')) {

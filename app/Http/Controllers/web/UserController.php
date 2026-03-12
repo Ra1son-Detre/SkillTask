@@ -42,15 +42,26 @@ class UserController extends Controller
 
         return view('user.my-tasks-responses', compact('tasks'));
     }
-    public function edit(string $id)
+    public function edit()
     {
-        //
+        $user = auth()->user();
+        return view('user.profile-edit', compact('user'));
     }
 
 
     public function update(ProfileEditRequest $request)
     {
         $data = $request->validated();
+
+        if ($request->filled('password')) {
+            $data['password'] = Hash::make($request->password);
+        } else {
+            unset($data['password']);
+        }
+
+        auth()->user()->update($data);
+
+        return redirect('profile')->with('success', 'Профиль обновлён');
     }
 
 }

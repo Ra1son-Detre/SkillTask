@@ -9,32 +9,37 @@
 
 <body>
 
+<header>
+    @include('admin.partials.admin-navbar')
+</header>
 <div class="container-fluid">
 
     <div class="row">
 
-        {{-- Sidebar --}}
         <div class="col-2 bg-dark text-white min-vh-100 p-3">
 
-            <h4 class="mb-4">Admin</h4>
+            <h4 class="mb-4">Навигация</h4>
 
             <ul class="nav flex-column">
 
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="{{ route('admin.dashboard') }}">
+                    <a class="nav-link text-white"
+                       href="{{ route('admin.dashboard') }}">
                         Dashboard
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="{{ route('admin.users') }}">
-                        Users
+                    <a class="nav-link text-white"
+                       href="{{ route('admin.users') }}">
+                        Пользователи
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="{{ route('admin.tasks') }}">
-                        Tasks
+                    <a class="nav-link text-white"
+                       href="{{ route('admin.tasks') }}">
+                        Задачи
                     </a>
                 </li>
 

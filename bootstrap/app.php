@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Middleware\CheckingUserBlocking;
+use App\Http\Middleware\CheckingUserBlockingMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use App\Http\Middleware\AdminMiddleware;
+use App\Http\Middleware\OnlyUsersMiddleware;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -19,10 +20,12 @@ return Application::configure(basePath: dirname(__DIR__))
         });
         $middleware->alias([
             'admin' => AdminMiddleware::class,
-            'not.blocked' => CheckingUserBlocking::class,
+            'not.blocked' => CheckingUserBlockingMiddleware::class,
+            'only.users' => OnlyUsersMiddleware::class,
+
         ]);
         $middleware->web(append: [
-           CheckingUserBlocking::class,
+           CheckingUserBlockingMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

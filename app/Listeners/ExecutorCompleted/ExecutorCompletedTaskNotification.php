@@ -8,15 +8,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class ExecutorCompletedTaskNotification implements ShouldQueue
 {
-
-    public function __construct()
-    {
-        //
-    }
-
-    /**
-     * Handle the event.
-     */
     public function handle(ExecutorCompletedTask $event): void
     {
         $event->task->client->notify(new ExecutorReportedCompletion($event->task));

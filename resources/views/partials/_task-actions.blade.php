@@ -62,7 +62,7 @@
                     @csrf
                     @method('PATCH')
 
-                    <button class="btn btn-secondary">
+                    <button class="btn btn-danger">
                         Отменить
                     </button>
                 </form>

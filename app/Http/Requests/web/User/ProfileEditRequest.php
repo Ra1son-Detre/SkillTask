@@ -25,7 +25,7 @@ class ProfileEditRequest extends FormRequest
             'name' => ['required', 'string', 'min:2', 'max:255'],
             'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
             'current_password' => 'required_with:password|current_password',
-            'password' => 'nullable|string|min:1|confirmed',
+            'password' => 'nullable|string|min:1',
         ];
     }
 }

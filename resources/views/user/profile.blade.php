@@ -10,11 +10,18 @@
                     <p><strong>Имя:</strong> {{ $user->name }}</p>
                     <p><strong>Email:</strong> {{ $user->email }}</p>
                     <p><strong>Роль:</strong> {{ $user->role?->label() ?? '-' }}</p>
+                    <p><strong>Баланс:</strong> {{ $user->balance }}</p>
 
-                    <form method="POST" action="{{ route('user.logout') }}" class="mb-3">
-                        @csrf
-                        <button type="submit" class="btn btn-danger w-100">Выйти</button>
-                    </form>
+                    <div class="d-flex justify-content-between mb-3">
+                        <a href="{{ route('user.profile.edit') }}" class="btn btn-primary">
+                            Редактировать профиль
+                        </a>
+
+                        <form method="POST" action="{{ route('user.logout') }}">
+                            @csrf
+                            <button type="submit" class="btn btn-danger">Выйти</button>
+                        </form>
+                    </div>
 
                     @include('partials._notifications')
 
