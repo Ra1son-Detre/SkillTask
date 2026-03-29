@@ -16,8 +16,12 @@ enum UserRole: string
             self::ADMIN => 'Админ',
         };
     }
-    public static function forRegistration() :array
+
+    public static function registrationRoles(): array
     {
-        return array_filter(self::cases(), fn (self $role) => $role !== self::ADMIN);
+        return [
+            self::CLIENT,
+            self::EXECUTOR
+        ];
     }
 }

@@ -8,24 +8,21 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-
-
     public function show()
     {
         return view('auth.login.login-form');
     }
 
-
     public function store(LoginRequest $request)
     {
         $data = $request->validated();
 
-        if(!Auth::attempt($data)){
+        if (!Auth::attempt($data)) {
             dd('Не правильно');
-        };
+        }
 
         $request->session()->regenerate();
 
-        return redirect(route('tasks.index'));
+        return redirect()->route('tasks.index');
     }
 }

@@ -13,20 +13,17 @@ class RegisterController extends Controller
     {
         $validated = $request->validated();
 
-        // Хешируем пароль
         $validated['password'] = Hash::make($validated['password']);
 
         $user = User::create($validated);
-
-
 
         return response()->json([
             'user' => [
                 'id' => $user->id,
                 'name' => $user->name,
                 'email' => $user->email,
-                'role' => $user->role->label(),
-            ]
+                'role' => $user->role?->label(),
+            ],
         ], 201);
     }
 }

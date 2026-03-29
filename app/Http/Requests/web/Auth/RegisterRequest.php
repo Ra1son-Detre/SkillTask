@@ -19,7 +19,7 @@ class RegisterRequest extends FormRequest
             'name' => ['required', 'string', 'min:2', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:1', 'confirmed'],
-            'role' => ['required', Rule::in(collect(UserRole::forRegistration())->pluck('value')->toArray()) ],
+            'role' => ['required', Rule::in(UserRole::registrationRoles())],
         ];
     }
 

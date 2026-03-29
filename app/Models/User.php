@@ -2,14 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Enums\UserRole;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use App\Enums\UserRole;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable
 {
     use Notifiable, HasApiTokens;
 
@@ -51,24 +50,23 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(TaskResponse::class, 'executor_id');
     }
 
-    public function outgoingTransactions(): HasMany
+    public function transactions(): HasMany
     {
-        return $this->hasMany(Transaction::class, 'from_user_id');
+        return $this->hasMany(Transaction::class);
     }
 
-    public function incomingTransactions(): HasMany
+    public function getBalance(): float
     {
-        return $this->hasMany(Transaction::class, 'to_user_id');
+        return max((float) $this->transactions()->sum('amount'), 0);
     }
 
     public function isAdmin(): bool
     {
         return $this->role === UserRole::ADMIN;
     }
-    public function isClient() :bool
+
+    public function isClient(): bool
     {
         return $this->role === UserRole::CLIENT;
     }
-
-
 }

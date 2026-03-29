@@ -15,8 +15,10 @@ class LoginController extends Controller
 
         $user = User::where('email', $validated['email'])->first();
 
-        if(!$user || !Hash::check($validated['password'], $user->password)) {
-            return response()->json(['message'=>'Не верные данные для входа'], 401);
+        if (! $user || ! Hash::check($validated['password'], $user->password)) {
+            return response()->json([
+                'message' => 'Неверные данные для входа',
+            ], 401);
         }
 
         $user->tokens()->delete();

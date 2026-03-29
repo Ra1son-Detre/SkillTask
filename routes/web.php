@@ -15,16 +15,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::prefix('email/verify')->group(function () {
-   Route::get('', function () {
-       return view('auth.verify-email');})->middleware('auth')->name('verification.notice');
-
-   Route::get('{id}/{hash}', function (EmailVerificationRequest $request) { //todo Разобраться полностью от а до я
-       $request->fulfill();
-       return redirect()->route('tasks.index');})->middleware(['auth', 'signed'])->name('verification.verify');
-
-});
-
 Route::middleware('guest')->group(function () {
 
     Route::prefix('login')->controller(LoginController::class)->group(function () {
@@ -36,22 +26,20 @@ Route::middleware('guest')->group(function () {
         Route::get('form', 'create')->name('register.create');
         Route::post('form', 'store')->name('register.store');
     });
-
 });
 
 
-Route::middleware(['auth', 'verified'])->prefix('profile')->controller(UserController::class)->group(function () {
+Route::middleware(['auth'])->prefix('profile')->controller(UserController::class)->group(function () {
     Route::get('/', 'show')->name('user.profile');
+    Route::post('/deposit', 'deposit')->name('user.deposit');
     Route::get('/edit', 'edit')->name('user.profile.edit');
     Route::patch('/', 'update')->name('user.profile.update');
     Route::post('/logout', 'logout')->name('user.logout');
-    Route::get('/tasks/responses', 'myTasksResponses')->name('user.tasks.responses'); //todo "Устарело убрать или найти правильное применение"
-
-    });
+});
 
 
 
-Route::middleware(['auth', 'verified', 'only.users'])->prefix('tasks')->controller(TaskController::class)->group(function () {
+Route::middleware(['auth', 'only.users'])->prefix('tasks')->controller(TaskController::class)->group(function () {
     Route::get('', 'index')->name('tasks.index');
     Route::post('', 'store')->name('tasks.store');
     Route::get('/create', 'create')->name('tasks.create');
@@ -66,15 +54,13 @@ Route::middleware(['auth', 'verified', 'only.users'])->prefix('tasks')->controll
     Route::patch('/{task}/confirm', 'confirmAndPay')->name('tasks.confirmAndPay');
 });
 
-Route::middleware(['auth', 'verified', 'only.users'])->controller(TaskResponseController::class)->group(function () {
-    Route::get('/my-responses', 'index')->name('tasks.my.responses'); //todo (устарело вывод откликов на странице задачи удалить не нарушив целостность)
+Route::middleware(['auth', 'only.users'])->controller(TaskResponseController::class)->group(function () {
     Route::post('/{task}/response', 'store')->name('tasks.response.store');
     Route::patch('/{task}/response/{response}', 'chooseExecutor')->name('tasks.response.choose');
 });
 
 
-Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(function () {
-
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::controller(AdminDashboardController::class)->group(function () {
         Route::get('/', 'index')->name('admin.dashboard');
     });

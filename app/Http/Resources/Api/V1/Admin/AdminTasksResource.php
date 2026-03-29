@@ -32,7 +32,6 @@ class AdminTasksResource extends JsonResource
                 'id' => $this->executor->id,
                 'name' => $this->executor->name,
             ] : null,
-
         ];
     }
 }

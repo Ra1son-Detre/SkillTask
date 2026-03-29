@@ -7,7 +7,6 @@ use App\Models\Task;
 
 class CrudService
 {
-
     public function create ( array $data, int $client_id): Task
     {
         $data['client_id'] = $client_id;

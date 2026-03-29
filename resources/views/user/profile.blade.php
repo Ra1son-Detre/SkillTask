@@ -10,7 +10,7 @@
                     <p><strong>Имя:</strong> {{ $user->name }}</p>
                     <p><strong>Email:</strong> {{ $user->email }}</p>
                     <p><strong>Роль:</strong> {{ $user->role?->label() ?? '-' }}</p>
-                    <p><strong>Баланс:</strong> {{ $user->balance }}</p>
+                    <p><strong>Баланс:</strong> {{ $user->getBalance() }}</p>
 
                     <div class="d-flex justify-content-between mb-3">
                         <a href="{{ route('user.profile.edit') }}" class="btn btn-primary">
@@ -22,6 +22,29 @@
                             <button type="submit" class="btn btn-danger">Выйти</button>
                         </form>
                     </div>
+                    <hr>
+
+                    <h5>Пополнить баланс</h5>
+
+                    <form method="POST" action="{{ route('user.deposit') }}">
+                        @csrf
+
+                        <div class="mb-3">
+                            <input
+                                type="number"
+                                name="amount"
+                                class="form-control"
+                                placeholder="Введите сумму"
+                                min="1"
+                                required
+                            >
+                        </div>
+
+                        <button type="submit" class="btn btn-success">
+                            Пополнить
+                        </button>
+                    </form>
+
 
                     @include('partials._notifications')
 

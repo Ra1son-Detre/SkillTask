@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api\v1\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\V1\Admin\AdminDashboardResource;
 use App\Queries\AdminDashboardQuery;
-use Illuminate\Http\Request;
 
 class AdminDashboardController extends Controller
 {

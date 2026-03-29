@@ -10,12 +10,14 @@ class CheckingUserBlockingMiddleware
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if(auth()->check() && auth()->user()->is_blocked){
-
+        if (auth()->check() && auth()->user()->is_blocked) {
             auth()->logout();
 
-            return redirect()->route('login')
-                ->withErrors(['Ваш аккаунт заблокировали, обратитесь в службу поддержки']);
+            return redirect()
+                ->route('login')
+                ->withErrors([
+                    'message' => 'Ваш аккаунт заблокирован, обратитесь в службу поддержки',
+                ]);
         }
 
         return $next($request);

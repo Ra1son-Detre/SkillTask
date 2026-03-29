@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  # Сервис для базы данных MySQL
+  mysql:
+    image: mysql:8.0
+    container_name: skilltask_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}        # Имя БД берем из твоего .env
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}   # Пароль root
+    ports:
+      - "3307:3306"  # Пробрасываем порт 3307 на компьютере на 3306 в контейнере.
+      # Чтобы не конфликтовать с локальным MySQL, если он у тебя есть.
+    volumes:
+      - mysql_data:/var/lib/mysql  # Сохраняем данные БД в специальном томе, чтобы они не пропадали
+    networks:
+      - skilltask_network
+
+  # Сервис для PHP
+  php-fpm:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: skilltask_php
+    restart: unless-stopped
+    volumes:
+      - ./:/var/www  # Пробрасываем текущую папку проекта в контейнер.
+      # Теперь код на компе и в контейнере — это одно и то же.
+    networks:
+      - skilltask_network
+    depends_on:
+      - mysql  # PHP стартует после MySQL
+
+  # Сервис для Nginx (веб-сервер)
+  nginx:
+    image: nginx:alpine
+    container_name: skilltask_nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"  # Порт 80 компьютера -> порт 80 контейнера
+    volumes:
+      - ./:/var/www  # Код проекта (чтобы Nginx мог отдавать файлы)
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf  # Наш конфиг
+    networks:
+      - skilltask_network
+    depends_on:
+      - php-fpm
+
+  # Сервис для воркера очередей
+  queue-worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: skilltask_queue
+    restart: unless-stopped
+    command: php artisan queue:work --sleep=3 --tries=3
+    volumes:
+      - ./:/var/www
+    networks:
+      - skilltask_network
+    depends_on:
+      - php-fpm
+      - mysql
+
+# Определяем том для данных MySQL
+volumes:
+  mysql_data:
+
+# Определяем сеть для общения контейнеров
+networks:
+  skilltask_network:
+    driver: bridge

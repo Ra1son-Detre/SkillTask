@@ -8,7 +8,6 @@ use App\Models\User;
 use App\Queries\AdminUserQuery;
 use Illuminate\Http\Request;
 
-
 class AdminUserController extends Controller
 {
     public function index(AdminUserQuery $query, Request $request)
@@ -20,14 +19,12 @@ class AdminUserController extends Controller
 
     public function toggleBlock(User $user)
     {
-        $user->update([
-            'is_blocked' => ! $user->is_blocked
-        ]);
+        $user->update(['is_blocked' => ! $user->is_blocked,]);
 
         return redirect()->back();
     }
 
-    public function showUserInfo (User $user)
+    public function showUserInfo(User $user)
     {
         $tasks = Task::where('client_id', $user->id)->orWhere('executor_id', $user->id)->get();
 

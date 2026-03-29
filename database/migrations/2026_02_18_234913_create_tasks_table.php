@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('tasks', function (Blueprint $table) {
@@ -17,16 +14,13 @@ return new class extends Migration
             $table->foreignId('executor_id')->nullable()->constrained('users')->nullOnDelete();
             $table->string('title');
             $table->text('description');
-            $table->decimal('price',12,2)->index();
-            $table->string('status')->index()->default('draft');
+            $table->decimal('price', 12, 2)->index();
+            $table->string('status')->default('draft')->index();
             $table->timestamp('completed_at')->nullable();
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('tasks');

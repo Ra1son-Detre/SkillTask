@@ -14,35 +14,51 @@ class TaskConfirmAndPayService
 {
     public function confirm(Task $task, User $user)
     {
+        if ($user->role !== UserRole::CLIENT) {
+            throw new \DomainException('Вы не имеете права на это действие');
+        }
 
-        DB::transaction(function () use ($task, $user) {
-            if($user->role !== UserRole::CLIENT) {
-                throw new \DomainException('Вы не имеете права на это действие');
-            }
-            if($task->status !== TaskStatus::AWAITING_CONFIRMATION){
-                throw new \DomainException('Неверный статус для выполнения операции');
-            }
+        if ($task->status !== TaskStatus::AWAITING_CONFIRMATION) {
+            throw new \DomainException('Неверный статус для выполнения операции');
+        }
 
-            $client = $task->client;
-            $executor = $task->executor;
+        $client = $task->client;
+        $executor = $task->executor;
 
-            if($client->balance < $task->price){
+        if (!$executor) {
+            throw new \DomainException('Исполнитель не назначен');
+        }
+
+        DB::transaction(function () use ($client, $executor, $task) {
+
+            $clientLocked = User::where('id', $client->id)->lockForUpdate()->first();
+
+            $executorLocked = User::where('id', $executor->id)->lockForUpdate()->first();
+
+
+            $clientBalance = $clientLocked->getBalance();
+
+            if ($clientBalance < $task->price) {
                 throw new \DomainException('Недостаточно средств для выполнения операции');
             }
 
-            $client->decrement('balance', $task->price);
-            $executor->increment('balance', $task->price);
+            Transaction::create([
+                'user_id' => $clientLocked->id,
+                'task_id' => $task->id,
+                'type' => 'task_payment',
+                'amount' => -$task->price, // списание
+            ]);
 
             Transaction::create([
-                'from_user_id' => $client->id,
-                'to_user_id' => $executor->id,
+                'user_id' => $executorLocked->id,
                 'task_id' => $task->id,
-                'type' => PaymentStatus::PAID,
-                'amount' => $task->price,
+                'type' => 'task_payment',
+                'amount' => $task->price, // начисление
             ]);
 
             $task->update(['status' => TaskStatus::COMPLETED]);
-            event(new ClientPayAndConfirm($task));
         });
+
+        event(new ClientPayAndConfirm($task));
     }
 }

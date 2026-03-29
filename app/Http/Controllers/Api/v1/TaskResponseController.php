@@ -8,26 +8,25 @@ use App\Models\Task;
 use App\Models\TaskResponse;
 use App\Services\TaskAcceptResponseService;
 use App\Services\TaskResponseService;
-use Illuminate\Http\Request;
-
 
 class TaskResponseController extends Controller
 {
-
     public function __construct(
         protected TaskResponseService $taskResponseService,
         protected TaskAcceptResponseService $taskAcceptResponseService
-    ){}
+    ) {}
 
-
-    public function store(Task $task, TaskResponseRequest $request)
+    public function respond(Task $task, TaskResponseRequest $request)
     {
         $this->authorize('respond', $task);
 
-        $this->taskResponseService->respond($request->user(), $task, $request->validated('message'));
+        $this->taskResponseService->respond(
+            $request->user(),
+            $task,
+            $request->validated('message')
+        );
 
         return response()->json(['message' => 'Отклик оставлен!']);
-
     }
 
     public function chooseExecutor(Task $task, TaskResponse $response)

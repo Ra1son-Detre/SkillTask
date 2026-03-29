@@ -59,7 +59,7 @@ public function sortDate($query, Request $request)
 
 public function sortPrice($query, Request $request)
 {
-    if($request->price === 'asc'){
+    if ($request->price === 'asc'){
         $query->reorder('price', 'asc');
     }
     if ($request->price === 'desc'){

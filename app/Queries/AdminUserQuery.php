@@ -41,11 +41,11 @@ public function roleFilter(Request $request, $query)
 
 public function registredAt(Request $request, $query)
 {
-    if($request->date === 'asc'){
+    if ($request->date === 'asc'){
         $query->reorder('created_at', 'asc');
     }
 
-    if($request->date === 'desc'){
+    if ($request->date === 'desc'){
         $query->reorder('created_at', 'desc');
     }
 }

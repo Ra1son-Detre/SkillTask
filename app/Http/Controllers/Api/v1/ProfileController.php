@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use App\Http\Requests\Api\v1\Profile\ProfileRequest;
 use App\Http\Resources\Api\V1\ProfileResource;
 use Illuminate\Http\Request;
@@ -25,7 +24,7 @@ class ProfileController extends Controller
 
         $data = $request->validated();
 
-        if($request->filled('password')) {
+        if (! empty($data['password'])) {
             $data['password'] = Hash::make($data['password']);
         }
 

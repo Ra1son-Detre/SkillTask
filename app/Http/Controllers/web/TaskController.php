@@ -8,9 +8,9 @@ use App\Http\Requests\web\Task\TaskStoreRequest;
 use App\Http\Requests\web\Task\TaskUpdateRequest;
 use App\Models\Task;
 use App\Queries\UniversalPageQuery;
+use App\Services\CancelledTaskService;
 use App\Services\ReportCompletionActionService;
 use App\Services\TaskConfirmAndPayService;
-use App\Services\CancelledTaskService;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
@@ -19,7 +19,8 @@ class TaskController extends Controller
         protected ReportCompletionActionService $reportCompletionActionService,
         protected TaskConfirmAndPayService $taskConfirmAndPayService,
         protected CancelledTaskService $cancelledTaskService,
-    ) {}
+    ) {
+    }
 
     public function index(UniversalPageQuery $query, Request $request)
     {
@@ -38,7 +39,6 @@ class TaskController extends Controller
     public function store(TaskStoreRequest $request)
     {
         $data = $request->validated();
-
         $data['status'] = TaskStatus::DRAFT;
 
         $task = $request->user()->clientTasks()->create($data);
@@ -49,13 +49,18 @@ class TaskController extends Controller
     public function show(Task $task)
     {
         $this->authorize('view', $task);
+
         $user = auth()->user();
 
-        $task->load(['responses.executor']);
+        $task->load([
+            'responses.executor',
+        ]);
 
         $notificationId = request()->query('notification');
+
         if ($notificationId) {
             $notification = $user->unreadNotifications()->find($notificationId);
+
             if ($notification) {
                 $notification->markAsRead();
             }
@@ -93,7 +98,7 @@ class TaskController extends Controller
     {
         $this->authorize('publish', $task);
 
-        $task->update(['status' => TaskStatus::PUBLISHED]);
+        $task->update(['status' => TaskStatus::PUBLISHED,]);
 
         return back();
     }
@@ -111,7 +116,7 @@ class TaskController extends Controller
     {
         $this->authorize('draft', $task);
 
-        $task->update(['status' => TaskStatus::DRAFT]);
+        $task->update(['status' => TaskStatus::DRAFT,]);
 
         return back();
     }

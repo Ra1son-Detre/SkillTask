@@ -9,7 +9,6 @@ use App\Models\User;
 
 class TaskPolicy
 {
-
     public function viewAny(User $user): bool
     {
         return false;
@@ -17,16 +16,19 @@ class TaskPolicy
 
     public function view(User $user, Task $task): bool
     {
-        if($user->role === UserRole::ADMIN){
-            return true;
-        };
-        if(($user->role === UserRole::CLIENT) && ($user->id === $task->client_id)){
+        if ($user->role === UserRole::ADMIN) {
             return true;
         }
-        if($user->id === $task->executor_id){
+
+        if ($user->role === UserRole::CLIENT && $user->id === $task->client_id) {
             return true;
         }
-        if($user->role === UserRole::EXECUTOR && $task->status === TaskStatus::PUBLISHED){
+
+        if ($user->id === $task->executor_id) {
+            return true;
+        }
+
+        if ($user->role === UserRole::EXECUTOR && $task->status === TaskStatus::PUBLISHED) {
             return true;
         }
 
@@ -45,12 +47,13 @@ class TaskPolicy
 
     public function delete(User $user, Task $task): bool
     {
-        return ($user->id === $task->client_id || $user->role === UserRole::ADMIN) && $task->executor_id === null;
+        return ($user->id === $task->client_id || $user->role === UserRole::ADMIN)
+            && $task->executor_id === null;
     }
 
     public function restore(User $user, Task $task): bool
     {
-        return $user->id === $task->client_id && $task->status === TaskStatus::DRAFT || $user->role === UserRole::ADMIN;
+        return ($user->id === $task->client_id && $task->status === TaskStatus::DRAFT) || $user->role === UserRole::ADMIN;
     }
 
     public function forceDelete(User $user, Task $task): bool
@@ -63,9 +66,9 @@ class TaskPolicy
         return $user->id === $task->client_id && ($task->status === TaskStatus::DRAFT || $task->status === TaskStatus::CANCELLED);
     }
 
-    public  function cancel(User $user, Task $task): bool
+    public function cancel(User $user, Task $task): bool
     {
-        return $user->id === $task->client_id &&  $task->status === TaskStatus::IN_PROGRESS;
+        return $user->id === $task->client_id && $task->status === TaskStatus::IN_PROGRESS;
     }
 
     public function draft(User $user, Task $task): bool
@@ -87,7 +90,8 @@ class TaskPolicy
     {
         return $user->id === $task->executor_id && $task->status === TaskStatus::IN_PROGRESS;
     }
-    public  function confirmAndPay(User $user, Task $task): bool
+
+    public function confirmAndPay(User $user, Task $task): bool
     {
         return $user->id === $task->client_id && $task->status === TaskStatus::AWAITING_CONFIRMATION;
     }

@@ -17,39 +17,36 @@ use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-
     public function __construct(
         protected CrudService $crudService,
         protected TaskConfirmAndPayService $taskConfirmAndPayService,
         protected ReportCompletionActionService $reportCompletionActionService,
         protected CancelledTaskService $cancelledTaskService,
-    ){}
+    ) {}
 
     public function index(Request $request, UniversalPageQuery $query)
     {
-
         $tasks = $query->get($request, $request->user());
-
 
         return TaskResource::collection($tasks);
     }
 
     public function store(TaskStoreRequest $request)
     {
-       $task = $this->crudService->create($request->validated(), $request->user()->id);
+        $task = $this->crudService->create($request->validated(), $request->user()->id);
 
         return new TaskResource($task);
     }
 
-    public function show(Task $task)
+    public function show(Task $task, Request $request)
     {
         $this->authorize('view', $task);
 
-        if($task->client_id === request()->user()->id){
+        if ($task->client_id === $request->user()->id) {
             $task->load('responses.executor');
         }
 
-        return  new TaskResource($task);
+        return new TaskResource($task);
     }
 
     public function publish(Task $task)
@@ -59,7 +56,6 @@ class TaskController extends Controller
         $task->update(['status' => TaskStatus::PUBLISHED]);
 
         return response()->json('Задача опубликована');
-
     }
 
     public function draft(Task $task)
@@ -105,7 +101,6 @@ class TaskController extends Controller
         $this->reportCompletionActionService->execute($task);
 
         return new TaskResource($task);
-
     }
 
     public function confirmAndPay(Task $task, Request $request)
@@ -116,5 +111,4 @@ class TaskController extends Controller
 
         return new TaskResource($task);
     }
-
 }

@@ -23,7 +23,6 @@ class AdminUserTasksResource extends JsonResource
             'status' => $this->status->label(),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-
         ];
     }
 }

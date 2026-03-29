@@ -16,7 +16,8 @@ class AdminTaskController extends Controller
     public function index(AdminTaskQuery $query, Request $request)
     {
        $tasks =  $query->get($request)->load('client', 'executor');
-        return AdminTasksResource::collection($tasks);
+
+       return AdminTasksResource::collection($tasks);
     }
 
     public function show(Task $task)

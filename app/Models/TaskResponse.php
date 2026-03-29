@@ -15,18 +15,16 @@ class TaskResponse extends Model
         'task_id',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'status' => TaskResponseStatus::class,
-        ];
-    }
-    public function task() : BelongsTo
+    protected $casts = [
+        'status' => TaskResponseStatus::class,
+    ];
+
+    public function task(): BelongsTo
     {
         return $this->belongsTo(Task::class, 'task_id');
     }
 
-    public function executor() : BelongsTo
+    public function executor(): BelongsTo
     {
         return $this->belongsTo(User::class, 'executor_id');
     }

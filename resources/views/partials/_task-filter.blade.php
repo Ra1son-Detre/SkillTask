@@ -2,33 +2,19 @@
 
     <div class="col-md-4">
         <input type="text"
-               name="search"
+               name="filter[title]"
                class="form-control"
                placeholder="Поиск по названию"
-               value="{{ request('search') }}">
+               value="{{ request('filter.title') }}">
     </div>
 
-    <div class="col-md-3">
-        <select name="price_sort" class="form-select">
-            <option value="">Цена</option>
-            <option value="asc" @selected(request('price_sort') === 'asc')>
-            По возрастанию
-            </option>
-            <option value="desc" @selected(request('price_sort') === 'desc')>
-            По убыванию
-            </option>
-        </select>
-    </div>
-
-    <div class="col-md-3">
-        <select name="date_sort" class="form-select">
-            <option value="">Дата</option>
-            <option value="asc" @selected(request('date_sort') === 'asc')>
-            Сначала старые
-            </option>
-            <option value="desc" @selected(request('date_sort') === 'desc')>
-            Сначала новые
-            </option>
+    <div class="col-md-4">
+        <select name="sort" class="form-select">
+            <option value="">Сортировка</option>
+            <option value="price" @selected(request('sort') === 'price')>Цена ↑</option>
+            <option value="-price" @selected(request('sort') === '-price')>Цена ↓</option>
+            <option value="created_at" @selected(request('sort') === 'created_at')>Сначала старые</option>
+            <option value="-created_at" @selected(request('sort') === '-created_at')>Сначала новые</option>
         </select>
     </div>
 

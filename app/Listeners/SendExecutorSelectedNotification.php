@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Listeners\ExecutorSelected;
+namespace App\Listeners;
 
 use App\Events\ExecutorSelected;
 use App\Notifications\ExecutorSelectedNotification;
-use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 

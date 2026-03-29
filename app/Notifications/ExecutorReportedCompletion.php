@@ -2,24 +2,19 @@
 
 namespace App\Notifications;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use App\Models\Task;
+use Illuminate\Notifications\Notification;
 
 class ExecutorReportedCompletion extends Notification
 {
-    use Queueable;
-
     public function __construct(public Task $task)
     {
     }
-
 
     public function via(object $notifiable): array
     {
         return ['database'];
     }
-
 
     public function toDatabase(object $notifiable): array
     {
@@ -29,5 +24,4 @@ class ExecutorReportedCompletion extends Notification
             'message' => 'Исполнитель сообщил о выполнении ✅',
         ];
     }
-
 }

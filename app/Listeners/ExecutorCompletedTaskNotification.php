@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Listeners\ExecutorCompleted;
+namespace App\Listeners;
 
 use App\Events\ExecutorCompletedTask;
 use App\Notifications\ExecutorReportedCompletion;
