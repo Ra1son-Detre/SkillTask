@@ -4,7 +4,7 @@ namespace App\Http\Controllers\web;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\web\User\ProfileEditRequest;
-use App\Services\BalanceService;
+use App\Services\DepositService;
 use App\Services\ProfileService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -13,7 +13,7 @@ class UserController extends Controller
 {
     public function __construct(
         protected ProfileService $profileService,
-        protected BalanceService $balanceService,
+        protected DepositService $balanceService,
     ) {
     }
 
@@ -70,10 +70,7 @@ class UserController extends Controller
             ],
         ]);
 
-        $this->balanceService->deposit(
-            $request->user(),
-            $data['amount']
-        );
+        $this->balanceService->deposit($request->user(), $data['amount']);
 
         return redirect()
             ->route('user.profile')

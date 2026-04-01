@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\web\Task\TaskResponseRequest;
 use App\Models\Task;
 use App\Models\TaskResponse;
-use App\Services\TaskAcceptResponseService;
-use App\Services\TaskResponseService;
+use App\Services\Tasks\TaskAcceptResponseService;
+use App\Services\Tasks\TaskResponseService;
 
 class TaskResponseController extends Controller
 {

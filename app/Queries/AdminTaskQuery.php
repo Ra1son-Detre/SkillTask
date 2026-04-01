@@ -1,70 +1,37 @@
 <?php
 
 namespace App\Queries;
+
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\AllowedSort;
 
 class AdminTaskQuery
 {
-public function get(Request $request)
-{
-    $query = Task::query()->with('client', 'executor');
-    $this->filterStatus($query, $request);
-    $this->filterClient($query, $request);
-    $this->filterExecutor($query, $request);
-    $this->filterSearch($query, $request);
-    $this->sortDate($query, $request);
-    $this->sortPrice($query, $request);
+    public function get(Request $request)
+    {
+        return QueryBuilder::for(Task::class)
+            ->with(['client', 'executor'])
 
-    return $query->get();
-}
+            ->allowedFilters([
+                AllowedFilter::exact('status'),
+                AllowedFilter::exact('client_id'),
+                AllowedFilter::exact('executor_id'),
+                AllowedFilter::partial('title'),
+            ])
 
-public function filterStatus($query, Request $request)
-{
-    if ($request->filled('status')) {
-        $query->where('status', $request->status);
+            ->allowedSorts([
+                'price',
+                'created_at',
+                AllowedSort::field('date', 'created_at'),
+            ])
+
+            ->defaultSort('-created_at')
+            ->paginate(15)
+            ->withQueryString();
     }
 }
 
-public function filterClient($query, Request $request)
-{
-    if ($request->filled('client')) {
-        $query->where('client_id', $request->client);
-    }
-}
 
-public function filterExecutor($query, Request $request)
-{
-    if ($request->filled('executor')) {
-        $query->where('executor_id', $request->executor);
-    }
-}
-
-public function filterSearch($query, Request $request)
-{
-    if ($request->filled('search')) {
-        $query->where('title', 'like', '%' . $request->search . '%');
-    }
-}
-
-public function sortDate($query, Request $request)
-{
-    if ($request->date === 'asc'){
-        $query->reorder('created_at', 'asc');
-    }
-    if ($request->date === 'desc'){
-        $query->reorder('created_at', 'desc');
-    }
-}
-
-public function sortPrice($query, Request $request)
-{
-    if ($request->price === 'asc'){
-        $query->reorder('price', 'asc');
-    }
-    if ($request->price === 'desc'){
-        $query->reorder('price', 'desc');
-    }
-}
-
-}

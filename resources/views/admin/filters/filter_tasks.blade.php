@@ -1,72 +1,63 @@
 <form method="GET" action="{{ route('admin.tasks') }}" class="row mb-4">
 
+    <!-- Поиск -->
     <div class="col-md-3">
         <input
             type="text"
-            name="search"
-            value="{{ request('search') }}"
+            name="filter[title]"
+            value="{{ request('filter.title') }}"
             class="form-control"
             placeholder="Поиск по названию"
         >
     </div>
 
+    <!-- Статус -->
     <div class="col-md-2">
-        <select name="status" class="form-control">
-
+        <select name="filter[status]" class="form-control">
             <option value="">Все статусы</option>
 
             @foreach(\App\Enums\TaskStatus::cases() as $status)
-
                 <option
                     value="{{ $status->value }}"
-                    {{ request('status') == $status->value ? 'selected' : '' }}
+                    @selected(request('filter.status') == $status->value)
                 >
                     {{ $status->label() }}
                 </option>
-
             @endforeach
-
         </select>
     </div>
 
-    <div class="col-md-2">
-        <select name="price" class="form-control">
+    <!-- Сортировка -->
+    <div class="col-md-3">
+        <select name="sort" class="form-control">
+            <option value="">Сортировка</option>
 
-            <option value="">Цена</option>
-
-            <option value="asc" {{ request('price') == 'asc' ? 'selected' : '' }}>
+            <option value="price" @selected(request('sort') === 'price')>
                 Цена ↑
             </option>
 
-            <option value="desc" {{ request('price') == 'desc' ? 'selected' : '' }}>
+            <option value="-price" @selected(request('sort') === '-price')>
                 Цена ↓
             </option>
 
-        </select>
-    </div>
-
-    <div class="col-md-2">
-        <select name="date" class="form-control">
-
-            <option value="">Дата</option>
-
-            <option value="desc" {{ request('date') == 'desc' ? 'selected' : '' }}>
+            <option value="-created_at" @selected(request('sort') === '-created_at')>
                 Новые
             </option>
 
-            <option value="asc" {{ request('date') == 'asc' ? 'selected' : '' }}>
+            <option value="created_at" @selected(request('sort') === 'created_at')>
                 Старые
             </option>
-
         </select>
     </div>
 
-    <div class="col-md-1">
+    <!-- Кнопка -->
+    <div class="col-md-2">
         <button class="btn btn-primary w-100">
             Фильтр
         </button>
     </div>
 
+    <!-- Сброс -->
     <div class="col-md-2">
         <a href="{{ route('admin.tasks') }}" class="btn btn-secondary w-100">
             Сбросить

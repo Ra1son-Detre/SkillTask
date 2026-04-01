@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Tasks;
 
 use App\Enums\TaskResponseStatus;
 use App\Enums\TaskStatus;
 use App\Models\Task;
 use Illuminate\Support\Facades\DB;
 
-class CancelledTaskService
+class TaskCancelledService
 {
     public function cancel(Task $task): void
     {

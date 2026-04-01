@@ -3,14 +3,15 @@
 namespace App\Http\Controllers\web;
 
 use App\Enums\TaskStatus;
+use App\Events\TaskCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\web\Task\TaskStoreRequest;
 use App\Http\Requests\web\Task\TaskUpdateRequest;
 use App\Models\Task;
 use App\Queries\UniversalPageQuery;
-use App\Services\CancelledTaskService;
 use App\Services\ReportCompletionActionService;
-use App\Services\TaskConfirmAndPayService;
+use App\Services\Tasks\TaskCancelledService;
+use App\Services\Tasks\TaskConfirmAndPayService;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
@@ -18,7 +19,7 @@ class TaskController extends Controller
     public function __construct(
         protected ReportCompletionActionService $reportCompletionActionService,
         protected TaskConfirmAndPayService $taskConfirmAndPayService,
-        protected CancelledTaskService $cancelledTaskService,
+        protected TaskCancelledService $cancelledTaskService,
     ) {
     }
 
@@ -27,6 +28,7 @@ class TaskController extends Controller
         $tasks = $query->get($request, auth()->user());
 
         return view('tasks.index', compact('tasks'));
+
     }
 
     public function create()
@@ -39,9 +41,12 @@ class TaskController extends Controller
     public function store(TaskStoreRequest $request)
     {
         $data = $request->validated();
+
         $data['status'] = TaskStatus::DRAFT;
 
         $task = $request->user()->clientTasks()->create($data);
+
+        event(new TaskCreated($task));
 
         return redirect()->route('tasks.index', $task);
     }

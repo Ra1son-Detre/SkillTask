@@ -127,6 +127,11 @@ return [
             'path' => storage_path('logs/laravel.log'),
         ],
 
+        'users_activity' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/users-activities/users-activities.log'),
+        ],
+
     ],
 
 ];

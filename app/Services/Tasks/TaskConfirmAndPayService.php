@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Tasks;
 use App\Enums\PaymentStatus;
 use App\Enums\TaskStatus;
 use App\Enums\UserRole;
 use App\Events\ClientPayAndConfirm;
 use App\Models\Task;
-use App\Models\TaskResponse;
 use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+
 class TaskConfirmAndPayService
 {
     public function confirm(Task $task, User $user)
@@ -29,7 +29,7 @@ class TaskConfirmAndPayService
             throw new \DomainException('Исполнитель не назначен');
         }
 
-        DB::transaction(function () use ($client, $executor, $task) {
+        [$payer, $beneficiary] = DB::transaction(function () use ($client, $executor, $task) {
 
             $clientLocked = User::where('id', $client->id)->lockForUpdate()->first();
 
@@ -42,23 +42,25 @@ class TaskConfirmAndPayService
                 throw new \DomainException('Недостаточно средств для выполнения операции');
             }
 
-            Transaction::create([
+            $payer = Transaction::create([
                 'user_id' => $clientLocked->id,
                 'task_id' => $task->id,
-                'type' => 'task_payment',
-                'amount' => -$task->price, // списание
+                'type' => PaymentStatus::TASK_PAYMENT,
+                'amount' => -$task->price,
             ]);
 
-            Transaction::create([
+            $beneficiary = Transaction::create([
                 'user_id' => $executorLocked->id,
                 'task_id' => $task->id,
-                'type' => 'task_payment',
-                'amount' => $task->price, // начисление
+                'type' => PaymentStatus::TASK_PAYMENT,
+                'amount' => $task->price,
             ]);
 
             $task->update(['status' => TaskStatus::COMPLETED]);
+
+            return [$payer, $beneficiary];
         });
 
-        event(new ClientPayAndConfirm($task));
+        event(new ClientPayAndConfirm($task, $payer, $beneficiary ));
     }
 }

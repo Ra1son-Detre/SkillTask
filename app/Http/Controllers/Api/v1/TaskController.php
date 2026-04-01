@@ -9,19 +9,19 @@ use App\Http\Requests\Api\v1\Task\TaskUpdateRequest;
 use App\Http\Resources\Api\V1\TaskResource;
 use App\Models\Task;
 use App\Queries\UniversalPageQuery;
-use App\Services\CancelledTaskService;
 use App\Services\CrudService;
 use App\Services\ReportCompletionActionService;
-use App\Services\TaskConfirmAndPayService;
+use App\Services\Tasks\TaskCancelledService;
+use App\Services\Tasks\TaskConfirmAndPayService;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
     public function __construct(
-        protected CrudService $crudService,
-        protected TaskConfirmAndPayService $taskConfirmAndPayService,
+        protected CrudService                   $crudService,
+        protected TaskConfirmAndPayService      $taskConfirmAndPayService,
         protected ReportCompletionActionService $reportCompletionActionService,
-        protected CancelledTaskService $cancelledTaskService,
+        protected TaskCancelledService          $cancelledTaskService,
     ) {}
 
     public function index(Request $request, UniversalPageQuery $query)
@@ -55,7 +55,7 @@ class TaskController extends Controller
 
         $task->update(['status' => TaskStatus::PUBLISHED]);
 
-        return response()->json('Задача опубликована');
+        return new TaskResource($task);
     }
 
     public function draft(Task $task)
@@ -64,7 +64,7 @@ class TaskController extends Controller
 
         $task->update(['status' => TaskStatus::DRAFT]);
 
-        return response()->json('Задача переведена в черновик');
+        return new TaskResource($task);
     }
 
     public function cancel(Task $task)
@@ -73,7 +73,7 @@ class TaskController extends Controller
 
         $this->cancelledTaskService->cancel($task);
 
-        return response()->json('Задача отменена');
+        return new TaskResource($task);
     }
 
     public function update(TaskUpdateRequest $request, Task $task)
@@ -91,7 +91,7 @@ class TaskController extends Controller
 
         $this->crudService->delete($task);
 
-        return response()->json(null, 204);
+        return response()->noContent();
     }
 
     public function completeTask(Task $task)

@@ -2,11 +2,12 @@
 
 namespace App\Services;
 
+use App\Enums\PaymentStatus;
 use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
-class BalanceService
+class DepositService
 {
     public function deposit(User $user, float $amount): void
     {
@@ -15,13 +16,11 @@ class BalanceService
         }
 
         DB::transaction(function () use ($user, $amount) {
-            $lockedUser = User::where('id', $user->id)
-                ->lockForUpdate()
-                ->first();
+            $lockedUser = User::where('id', $user->id)->lockForUpdate()->first();
 
             Transaction::create([
                 'user_id' => $lockedUser->id,
-                'type' => 'deposit',
+                'type' => PaymentStatus::DEPOSIT,
                 'amount' => $amount,
             ]);
         });

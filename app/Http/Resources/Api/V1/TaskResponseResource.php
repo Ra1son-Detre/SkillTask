@@ -17,7 +17,7 @@ class TaskResponseResource extends JsonResource
                 'name' => $this->executor->name,
                 'email' => $this->executor->email,
             ],
-            'resposnse_at' => $this->created_at,
+            'responded_at' => $this->created_at,
         ];
     }
 }

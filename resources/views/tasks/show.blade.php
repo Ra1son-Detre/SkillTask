@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('content')
+    @include('partials._task-sections')
 <h1>Задача:</h1>
 @include('partials._task-card')
 @include('partials._response-form')

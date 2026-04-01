@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\v1\Task\TaskResponseRequest;
 use App\Models\Task;
 use App\Models\TaskResponse;
-use App\Services\TaskAcceptResponseService;
-use App\Services\TaskResponseService;
+use App\Services\Tasks\TaskAcceptResponseService;
+use App\Services\Tasks\TaskResponseService;
 
 class TaskResponseController extends Controller
 {
@@ -20,11 +20,7 @@ class TaskResponseController extends Controller
     {
         $this->authorize('respond', $task);
 
-        $this->taskResponseService->respond(
-            $request->user(),
-            $task,
-            $request->validated('message')
-        );
+        $this->taskResponseService->respond($request->user(), $task, $request->validated('message'));
 
         return response()->json(['message' => 'Отклик оставлен!']);
     }
