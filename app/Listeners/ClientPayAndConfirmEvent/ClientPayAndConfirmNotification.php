@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Listeners;
+namespace App\Listeners\ClientPayAndConfirmEvent;
 
 use App\Events\ClientPayAndConfirm;
 use App\Notifications\ClientPayNotification;

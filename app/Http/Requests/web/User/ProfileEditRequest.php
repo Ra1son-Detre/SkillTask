@@ -14,10 +14,10 @@ class ProfileEditRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'min:2', 'max:255'],
-            'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
-            'current_password' => 'required_with:password|current_password',
-            'password' => 'nullable|string|min:1',
+            'name' => 'required|string|min:2|max:255',
+            'old_password' => ['nullable', 'string', 'min:1', 'max:255', 'required_with:new_password'],
+            'new_password' => ['nullable', 'string', 'min:1', 'max:255',],
+            'avatar' => ['nullable', 'image', 'max:2048'],
         ];
     }
 }

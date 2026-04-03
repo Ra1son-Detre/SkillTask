@@ -4,7 +4,6 @@ namespace App\Services;
 use App\Enums\TaskStatus;
 use App\Events\ExecutorCompletedTask;
 use App\Models\Task;
-use App\Models\User;
 use Illuminate\Support\Facades\DB;
 class ReportCompletionActionService
 {

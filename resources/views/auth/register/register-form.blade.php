@@ -13,7 +13,7 @@
                         </div>
                     @endif
 
-                    <form method="POST" action="{{ route('register.store') }}">
+                    <form method="POST" action="{{ route('register.store') }}" enctype="multipart/form-data">
                         @csrf
 
                         {{-- Имя --}}
@@ -61,6 +61,20 @@
                             @enderror
                         </div>
 
+                        {{-- Аватар --}}
+                        <div class="mb-3">
+                            <label for="avatar" class="form-label">Аватар</label>
+                            <input
+                                type="file"
+                                name="avatar"
+                                id="avatar"
+                                class="form-control @error('avatar') is-invalid @enderror"
+                            >
+                            @error('avatar')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                         {{-- Пароль --}}
                         <div class="mb-3">
                             <label for="password" class="form-label">Пароль</label>
@@ -80,7 +94,6 @@
                                    name="password_confirmation" required>
                         </div>
 
-                        {{-- Кнопка регистрации --}}
                         <div class="d-grid mt-4">
                             <button type="submit" class="btn btn-primary">
                                 Зарегистрироваться
@@ -88,7 +101,6 @@
                         </div>
                     </form>
 
-                    {{-- Ссылки --}}
                     <div class="text-center mt-3">
                         <span>Уже есть аккаунт?</span>
                         <a href="{{ route('login') }}">Войти</a>

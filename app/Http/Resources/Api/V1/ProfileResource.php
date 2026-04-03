@@ -14,7 +14,8 @@ class ProfileResource extends JsonResource
             'email' => $this->email,
             'role' => $this->role->label(),
             'balance' => $this->balance,
-            'register_at' => $this->created_at
+            'register_at' => $this->created_at,
+            'avatar' => $this->avatar_url,
         ];
     }
 }

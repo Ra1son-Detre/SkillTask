@@ -69,8 +69,19 @@
                 </div>
 
                 {{-- Профиль --}}
-                <a href="{{ route('user.profile') }}" class="btn btn-outline-light btn-sm">
-                    Профиль
+                <a href="{{ route('user.profile') }}" class="d-flex align-items-center text-decoration-none">
+
+                    <img
+                        src="{{ auth()->user()->avatar
+            ? asset('storage/' . auth()->user()->avatar)
+            : asset('storage/avatars/default-avatar.png') }}"
+                        alt="avatar"
+                        class="rounded-circle border border-light"
+                        width="38"
+                        height="38"
+                        style="object-fit: cover;"
+                    >
+
                 </a>
 
                 {{-- Logout --}}

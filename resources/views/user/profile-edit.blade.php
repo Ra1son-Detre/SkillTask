@@ -7,9 +7,16 @@
                 <div class="card-body">
                     <h2 class="card-title text-center mb-4">Редактирование профиля</h2>
 
-                    <form method="POST" action="{{ route('user.profile.update') }}">
+                    <form method="POST" action="{{ route('user.profile.update') }}" enctype="multipart/form-data">
                         @csrf
                         @method('PATCH')
+
+                        {{-- Текущий аватар --}}
+                        @if($user->avatar)
+                            <div class="mb-3 text-center">
+                                <img src="{{ asset('storage/' . $user->avatar) }}" width="120" class="rounded">
+                            </div>
+                        @endif
 
                         {{-- Имя --}}
                         <div class="mb-3">
@@ -27,32 +34,46 @@
                             @enderror
                         </div>
 
+                        {{-- Аватар --}}
+                        <div class="mb-3">
+                            <label for="avatar" class="form-label">Аватар</label>
+                            <input
+                                type="file"
+                                name="avatar"
+                                id="avatar"
+                                class="form-control @error('avatar') is-invalid @enderror"
+                            >
+                            @error('avatar')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                         {{-- Старый пароль --}}
                         <div class="mb-3">
-                            <label for="current_password" class="form-label">Старый пароль</label>
+                            <label for="old_password" class="form-label">Старый пароль</label>
                             <input
                                 type="password"
-                                name="current_password"
-                                id="current_password"
-                                class="form-control @error('current_password') is-invalid @enderror"
+                                name="old_password"
+                                id="old_password"
+                                class="form-control @error('old_password') is-invalid @enderror"
                                 placeholder="Введите текущий пароль, если хотите сменить"
                             >
-                            @error('current_password')
+                            @error('old_password')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
 
                         {{-- Новый пароль --}}
                         <div class="mb-3">
-                            <label for="password" class="form-label">Новый пароль</label>
+                            <label for="new_password" class="form-label">Новый пароль</label>
                             <input
                                 type="password"
-                                name="password"
-                                id="password"
-                                class="form-control @error('password') is-invalid @enderror"
+                                name="new_password"
+                                id="new_password"
+                                class="form-control @error('new_password') is-invalid @enderror"
                                 placeholder="Оставьте пустым, если не хотите менять"
                             >
-                            @error('password')
+                            @error('new_password')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>

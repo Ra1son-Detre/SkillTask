@@ -69,4 +69,16 @@ class User extends Authenticatable
     {
         return $this->role === UserRole::CLIENT;
     }
+
+    public function isExecutor(): bool
+    {
+        return $this->role === UserRole::EXECUTOR;
+    }
+
+    public function getAvatarUrlAttribute(): string
+    {
+        return $this->avatar
+            ? asset('storage/' . $this->avatar)
+            : asset('storage/default.png');
+    }
 }

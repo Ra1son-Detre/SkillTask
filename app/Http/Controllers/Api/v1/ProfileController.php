@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\v1\Profile\ProfileRequest;
 use App\Http\Resources\Api\V1\ProfileResource;
 use App\Services\DepositService;
+use App\Services\ProfileService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -13,6 +14,7 @@ class ProfileController extends Controller
 {
     public function __construct(
         protected DepositService $depositService,
+        protected ProfileService $profileService,
     ){
 
     }
@@ -27,13 +29,7 @@ class ProfileController extends Controller
     {
         $user = $request->user();
 
-        $data = $request->validated();
-
-        if (! empty($data['password'])) {
-            $data['password'] = Hash::make($data['password']);
-        }
-
-        $user->update($data);
+        $this->profileService->editingProfile($user, $request->validated(), $request->file('avatar'));
 
         return new ProfileResource($user);
     }

@@ -21,7 +21,7 @@ Route::prefix('v1')->group(function () {
 
             Route::prefix('profile')->controller(ProfileController::class)->group(function () {
                 Route::get('/', 'show');
-                Route::patch('/', 'update');
+                Route::post('/', 'update');
                 Route::patch('deposit', 'deposit');
                 Route::post('logout', 'logout');
             });

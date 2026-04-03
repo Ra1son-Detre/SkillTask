@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Listeners;
+namespace App\Listeners\ExecutorSelectedEvent;
 
 use App\Events\ExecutorSelected;
 use App\Notifications\ExecutorSelectedNotification;

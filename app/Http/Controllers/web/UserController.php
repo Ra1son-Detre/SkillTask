@@ -8,6 +8,7 @@ use App\Services\DepositService;
 use App\Services\ProfileService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -47,15 +48,7 @@ class UserController extends Controller
 
     public function update(ProfileEditRequest $request)
     {
-        $data = $request->validated();
-
-        if ($request->filled('password')) {
-            $data['password'] = Hash::make($request->password);
-        } else {
-            unset($data['password']);
-        }
-
-        auth()->user()->update($data);
+        $this->profileService->editingProfile($request->user(), $request->validated(), $request->file('avatar'));
 
         return redirect('profile')->with('success', 'Профиль обновлён');
     }

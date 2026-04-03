@@ -21,6 +21,15 @@ class RegisterController extends Controller
     {
         $validated = $request->validated();
 
+        if ($request->hasFile('avatar')){
+
+            $avatar = $request->file('avatar');
+
+            $path = $avatar->store('avatars', 'public');
+
+            $validated['avatar'] = $path;
+        }
+
         $user = User::create($validated);
 
         Auth::login($user);

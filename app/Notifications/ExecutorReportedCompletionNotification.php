@@ -5,7 +5,7 @@ namespace App\Notifications;
 use App\Models\Task;
 use Illuminate\Notifications\Notification;
 
-class ExecutorReportedCompletion extends Notification
+class ExecutorReportedCompletionNotification extends Notification
 {
     public function __construct(public Task $task)
     {
