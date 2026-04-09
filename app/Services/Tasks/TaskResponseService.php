@@ -11,7 +11,7 @@ use App\Models\User;
 
 class TaskResponseService
 {
-    public function respond(User $user, Task $task, string $message): void
+    public function respond(User $user, Task $task, string $message): TaskResponse
     {
         if ($user->role !== UserRole::EXECUTOR) {
             abort(403);
@@ -25,7 +25,7 @@ class TaskResponseService
             abort(403);
         }
 
-        TaskResponse::create([
+        return TaskResponse::create([
             'task_id' => $task->id,
             'executor_id' => $user->id,
             'message' => $message,

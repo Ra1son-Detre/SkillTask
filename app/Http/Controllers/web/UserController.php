@@ -22,11 +22,9 @@ class UserController extends Controller
     {
         $user = auth()->user();
 
-        $tasks = $user->tasks;
-
         $notifications = $user->unreadNotifications;
 
-        return view('user.profile', compact('user', 'notifications', 'tasks'));
+        return view('user.profile', compact('user', 'notifications',));
     }
 
     public function logout(Request $request)

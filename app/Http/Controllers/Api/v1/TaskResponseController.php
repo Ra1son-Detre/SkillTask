@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\v1\Task\TaskResponseRequest;
+use App\Http\Resources\Api\V1\TaskResponseResource;
 use App\Models\Task;
 use App\Models\TaskResponse;
 use App\Services\Tasks\TaskAcceptResponseService;
@@ -20,9 +21,11 @@ class TaskResponseController extends Controller
     {
         $this->authorize('respond', $task);
 
-        $this->taskResponseService->respond($request->user(), $task, $request->validated('message'));
+        $response = $this->taskResponseService->respond($request->user(), $task, $request->validated('message'));
 
-        return response()->json(['message' => 'Отклик оставлен!']);
+        $response->load('executor');
+
+        return new TaskResponseResource($response);
     }
 
     public function chooseExecutor(Task $task, TaskResponse $response)

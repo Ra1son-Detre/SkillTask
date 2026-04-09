@@ -7,17 +7,11 @@ use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 class ProfileService
 {
     public function editingProfile(User $user, array $data, ?UploadedFile $avatar = null)
     {
-
-
-//        if (!empty($data['password'])) {
-//            $data['password'] = Hash::make($data['password']);
-//        } else {
-//            unset($data['password']);
-//        }
         if (!blank($data['new_password']) ?? null){
             if (!Hash::check($data['old_password'], $user->password)){
                 throw ValidationException::withMessages(['old_password' => ['Старое значение пароля не свопадает.']]);

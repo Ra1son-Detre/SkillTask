@@ -41,7 +41,7 @@ Route::prefix('v1')->group(function () {
             });
 
             Route::prefix('tasks/{task}/responses')->controller(TaskResponseController::class)->group(function () {
-                Route::post('', 'store');
+                Route::post('', 'respond');
                 Route::patch('{response}', 'chooseExecutor');
             });
         });
