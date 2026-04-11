@@ -11,6 +11,10 @@ class TaskPolicy
 {
     public function viewAny(User $user): bool
     {
+        if ($user->role === UserRole::ADMIN) {
+            return true;
+        }
+
         return false;
     }
 

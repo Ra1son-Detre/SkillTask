@@ -28,4 +28,19 @@ class UserPolicy
     {
         return $user->id === $model->id;
     }
+
+    public function create(User $user): bool
+    {
+        return false;
+    }
+
+    public function store(User $user, User $model): bool
+    {
+        return false;
+    }
+
+    public function delete(User $user, User $model): bool
+    {
+        return false;
+    }
 }

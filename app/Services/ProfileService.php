@@ -10,9 +10,10 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 class ProfileService
 {
+    // Комментарий вынести в константу текст ошибки (ошибку, валидации или изменения)
     public function editingProfile(User $user, array $data, ?UploadedFile $avatar = null)
     {
-        if (!blank($data['new_password']) ?? null){
+        if (!blank($data['new_password'])){
             if (!Hash::check($data['old_password'], $user->password)){
                 throw ValidationException::withMessages(['old_password' => ['Старое значение пароля не свопадает.']]);
             }
@@ -27,6 +28,7 @@ class ProfileService
                 Storage::disk('public')->delete($user->avatar);
             }
 
+            // сделать единым методом удаление и запись
             $data['avatar'] = $avatar->store('avatars', 'public');
         }
 

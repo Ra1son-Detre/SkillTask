@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Enums\TaskStatus;
+use App\Events\TaskCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\v1\Task\TaskStoreRequest;
 use App\Http\Requests\Api\v1\Task\TaskUpdateRequest;
@@ -33,7 +34,11 @@ class TaskController extends Controller
 
     public function store(TaskStoreRequest $request)
     {
-        $task = $this->crudService->create($request->validated(), $request->user()->id);
+        $data = $request->validated();
+
+        $task = $this->crudService->create($data, $request->user()->id);
+
+        event(new TaskCreated($task));
 
         return new TaskResource($task);
     }

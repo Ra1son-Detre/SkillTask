@@ -27,8 +27,6 @@ class CreateAndPublishTest extends TestCase
 
         $taskData = $this->taskdData();
 
-
-
         $response = $this->postJson('/api/v1/tasks', $taskData);
 
         $response->assertStatus(201);

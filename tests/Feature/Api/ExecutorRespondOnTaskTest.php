@@ -55,9 +55,9 @@ class ExecutorRespondOnTaskTest extends TestCase
 
         //Попытка повторного отклика//
 
-        $response = $this->postJson("/api/v1/tasks/{$task->id}/responses", ['message'=> 'Я могу!']);
+        $responseTwice = $this->postJson("/api/v1/tasks/{$task->id}/responses", ['message'=> 'Я могу!']);
 
-        $response->assertStatus(403);
+        $responseTwice->assertStatus(403);
 
         $this->assertDatabaseCount('task_responses', 1);
 

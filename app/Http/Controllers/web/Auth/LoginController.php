@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\web\Auth;
 
+use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\web\Auth\LoginRequest;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
@@ -23,6 +25,11 @@ class LoginController extends Controller
 
         $request->session()->regenerate();
 
+        $user = User::where('email', $data['email'])->first();
+
+        if($user['role'] === UserRole::ADMIN){
+            return redirect('/adminFilament');
+        }
         return redirect()->route('tasks.index');
     }
 }
