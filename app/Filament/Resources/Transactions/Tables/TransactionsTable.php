@@ -29,6 +29,7 @@ class TransactionsTable
                     ->label('Тип транзакции'),
                 TextColumn::make('amount')
                     ->numeric()
+                    ->money('RUB', locale: 'ru')
                     ->sortable()
                     ->label('Сумма'),
                 TextColumn::make('created_at')

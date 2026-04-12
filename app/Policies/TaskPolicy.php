@@ -46,7 +46,7 @@ class TaskPolicy
 
     public function update(User $user, Task $task): bool
     {
-        return $user->id === $task->client_id && $task->status === TaskStatus::DRAFT;
+        return ($user->id === $task->client_id && $task->status === TaskStatus::DRAFT) || $user->role === UserRole::ADMIN;
     }
 
     public function delete(User $user, Task $task): bool

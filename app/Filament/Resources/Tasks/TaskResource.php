@@ -6,6 +6,7 @@ use App\Filament\Resources\Tasks\Pages\CreateTask;
 use App\Filament\Resources\Tasks\Pages\EditTask;
 use App\Filament\Resources\Tasks\Pages\ListTasks;
 use App\Filament\Resources\Tasks\Pages\ViewTask;
+use App\Filament\Resources\Tasks\RelationManagers\ResponsesRelationManager;
 use App\Filament\Resources\Tasks\Schemas\TaskForm;
 use App\Filament\Resources\Tasks\Schemas\TaskInfolist;
 use App\Filament\Resources\Tasks\Tables\TasksTable;
@@ -25,6 +26,7 @@ class TaskResource extends Resource
     protected static ?string $model = Task::class;
     protected static ?string $modelLabel = 'Задача';
     protected static ?string $pluralModelLabel = 'Задачи';
+
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
@@ -46,7 +48,7 @@ class TaskResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            ResponsesRelationManager::class,
         ];
     }
 

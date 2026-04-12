@@ -13,6 +13,8 @@ class TransactionInfolist
             ->components([
                 TextEntry::make('user.name')
                     ->label('Пользователь'),
+                TextEntry::make('task.client.name')
+                    ->label('Палтельщик задачи'),
                 TextEntry::make('task.title')
                     ->label('Заголовок задачи')
                     ->placeholder('-'),
@@ -23,6 +25,7 @@ class TransactionInfolist
                     ->placeholder('-'),
                 TextEntry::make('amount')
                     ->numeric()
+                    ->money('RUB', locale: 'ru')
                     ->label('Сумма'),
                 TextEntry::make('created_at')
                     ->dateTime()

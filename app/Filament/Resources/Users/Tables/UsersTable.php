@@ -2,12 +2,15 @@
 
 namespace App\Filament\Resources\Users\Tables;
 
+use App\Enums\UserRole;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
+use App\Models\User;
 
 class UsersTable
 {
@@ -25,11 +28,12 @@ class UsersTable
                 TextColumn::make('role')
                     ->badge()
                     ->searchable()
-                    ->formatStateUsing(fn ($state) => $state->label())
                     ->label('Роль'),
-                TextColumn::make('avatar')
-                    ->searchable()->placeholder('Default avatar')
-                    ->label('Аватарка'),
+                TextColumn::make('balance')
+                    ->placeholder('-')
+                    ->getStateUsing(fn (User $record) => $record->getBalance())
+                    ->money('RUB', locale: 'ru')
+                    ->label('Баланс'),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -39,8 +43,8 @@ class UsersTable
                     ->sortable()
                     ->label('Дата редактирования профиля')
                     ->toggleable(isToggledHiddenByDefault: true),
-                IconColumn::make('is_blocked')
-                    ->boolean()
+                ToggleColumn::make('is_blocked')
+                    ->disabled(fn (User $record) => auth()->user()->role !== UserRole::ADMIN)
                     ->label('Заблокирован'),
             ])
             ->filters([

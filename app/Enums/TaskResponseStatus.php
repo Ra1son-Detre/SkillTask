@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Enums;
-
-enum TaskResponseStatus: string
+use Filament\Support\Contracts\HasColor;
+use Filament\Support\Contracts\HasLabel;
+enum TaskResponseStatus: string implements HasColor, HasLabel
 {
     case PENDING = 'pending';
     case ACCEPTED = 'accepted';
@@ -17,6 +18,15 @@ enum TaskResponseStatus: string
         };
     }
 
+    public function statusColor() :string
+    {
+        return match ($this) {
+            self::PENDING => 'info',
+            self::ACCEPTED => 'success',
+            self::REJECTED => 'danger',
+        };
+    }
+
     public function emoji() :string
     {
         return match ($this) {
@@ -24,6 +34,16 @@ enum TaskResponseStatus: string
             self::ACCEPTED =>'✅',
             self::REJECTED =>'❌',
         };
+    }
+
+    public function getColor() : string
+    {
+        return $this->statusColor();
+    }
+
+    public function getLabel() : string
+    {
+        return $this->label();
     }
 
 }

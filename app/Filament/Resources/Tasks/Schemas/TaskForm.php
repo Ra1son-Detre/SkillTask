@@ -17,24 +17,35 @@ class TaskForm
             ->components([
                 Select::make('client_id')
                     ->relationship('client', 'name')
-                    ->required(),
+                    ->disabled()
+                ->label('Клиент'),
                 Select::make('executor_id')
                     ->relationship('executor', 'name')
-                    ->default(null),
+                    ->default(null)
+                    ->disabled()
+                    ->label('Исполнитель'),
                 TextInput::make('title')
-                    ->required(),
+                    ->required()
+                    ->disabled()
+                    ->label('Заголовок'),
                 Textarea::make('description')
                     ->required()
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+                    ->disabled()
+                    ->label('Описание'),
                 TextInput::make('price')
                     ->required()
                     ->numeric()
-                    ->prefix('$'),
+                    ->prefix('$')
+                    ->disabled()
+                    ->label('Цена'),
                 Select::make('status')
                     ->options(TaskStatus::class)
-                    ->default('draft')
-                    ->required(),
-                DateTimePicker::make('completed_at'),
+                    ->required()
+                    ->label('Статус'),
+                DateTimePicker::make('completed_at')
+                    ->disabled()
+                    ->label('Дата выполнения'),
             ]);
     }
 }

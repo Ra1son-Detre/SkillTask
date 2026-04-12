@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Enums;
-
-enum TaskStatus: string
+use Filament\Support\Contracts\HasColor;
+use Filament\Support\Contracts\HasLabel;
+enum TaskStatus: string implements HasLabel, HasColor
 {
     case DRAFT = 'draft';
     case PUBLISHED = 'published';
@@ -35,6 +36,12 @@ enum TaskStatus: string
         };
     }
 
+    public function getLabel(): ?string
+    {
+        // Склеиваем эмодзи и текст для красоты в Filament
+        return $this->emoji() . ' ' . $this->label();
+    }
+
     public function statusColor() :string
     {
         return match ($this) {
@@ -46,4 +53,11 @@ enum TaskStatus: string
             self::CANCELLED => 'bg-danger',
         };
     }
+
+    public function getColor(): ?string
+    {
+        return $this->statusColor();
+    }
+
+
 }

@@ -18,28 +18,37 @@ class TasksTable
                 TextColumn::make('client.name')
                     ->searchable(),
                 TextColumn::make('client.id')
-                    ->searchable()->label('Client ID'),
+                    ->searchable()
+                    ->label('Идентификатор ID'),
                 TextColumn::make('executor.name')
-                    ->searchable()->placeholder('Не назначен'),
+                    ->searchable()
+                    ->placeholder('Не назначен'),
                 TextColumn::make('title')
-                    ->searchable()->label('Заголовок'),
+                    ->searchable()
+                    ->label('Заголовок'),
                 TextColumn::make('price')
-                    ->money()
-                    ->sortable(),
+                    ->numeric(decimalPlaces:2)
+                    ->money('RUB', locale: 'ru')
+                    ->sortable()
+                    ->label('Цена задачи'),
                 TextColumn::make('status')
                     ->badge()
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Статус'),
                 TextColumn::make('completed_at')
                     ->dateTime()
-                    ->sortable(),
+                    ->sortable()
+                    ->label('Дата завершения')
+                ->placeholder('-'),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
+                    ->label('Дата Создания')
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
-                    ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->label('Дата последнего изменения'),
             ])
             ->filters([
                 //

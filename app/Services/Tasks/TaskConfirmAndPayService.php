@@ -56,7 +56,7 @@ class TaskConfirmAndPayService
                 'amount' => $task->price,
             ]);
 
-            $task->update(['status' => TaskStatus::COMPLETED]);
+            $task->update(['status' => TaskStatus::COMPLETED, 'completed_at' => now()]);
 
             return [$payer, $beneficiary];
         });

@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Enums;
+use Filament\Support\Contracts\HasColor;
+use Filament\Support\Contracts\HasLabel;
 
-enum UserRole: string
+enum UserRole: string implements HasLabel, HasColor
 {
     case CLIENT = 'client';
     case EXECUTOR = 'executor';
@@ -17,11 +19,30 @@ enum UserRole: string
         };
     }
 
+    public function color(): string
+    {
+        return match ($this) {
+            self::CLIENT => 'info',
+            self::EXECUTOR => 'warning ',
+            self::ADMIN => 'danger',
+        };
+    }
+
     public static function registrationRoles(): array
     {
         return [
             self::CLIENT,
             self::EXECUTOR
         ];
+    }
+
+    public  function getColor(): string
+    {
+        return $this->color();
+    }
+
+    public  function getLabel(): string
+    {
+        return $this->label();
     }
 }
