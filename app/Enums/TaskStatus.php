@@ -56,7 +56,14 @@ enum TaskStatus: string implements HasLabel, HasColor
 
     public function getColor(): ?string
     {
-        return $this->statusColor();
+        return match ($this) {
+            self::DRAFT => 'secondary',
+            self::PUBLISHED => 'primary',
+            self::IN_PROGRESS => 'warning',
+            self::AWAITING_CONFIRMATION => 'info',
+            self::COMPLETED => 'success',
+            self::CANCELLED => 'danger',
+        };
     }
 
 

@@ -15,11 +15,14 @@ class TasksTable
     {
         return $table
             ->columns([
+                TextColumn::make('id')
+                    ->searchable()->label('ID')
+                    ->sortable(),
                 TextColumn::make('client.name')
                     ->searchable(),
                 TextColumn::make('client.id')
                     ->searchable()
-                    ->label('Идентификатор ID'),
+                    ->label('ID Владельца'),
                 TextColumn::make('executor.name')
                     ->searchable()
                     ->placeholder('Не назначен'),

@@ -20,7 +20,7 @@ class LoginController extends Controller
         $data = $request->validated();
 
         if (!Auth::attempt($data)) {
-            dd('Не правильно');
+            dd('ВООООООООБЩЕ НЕ  правильно');
         }
 
         $request->session()->regenerate();

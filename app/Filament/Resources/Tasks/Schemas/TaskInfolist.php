@@ -31,7 +31,7 @@ class TaskInfolist
                 ->color('warning'),
             TextEntry::make('status')
                 ->label('Статус:')
-                ->formatStateUsing(fn ($state) => $state->label())->color('warning'),
+                ->badge(),
             TextEntry::make('created_at')
                 ->label('Дата создания:')
                 ->color('warning'),

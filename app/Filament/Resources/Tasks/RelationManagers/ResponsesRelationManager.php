@@ -71,6 +71,9 @@ class ResponsesRelationManager extends RelationManager
                 TextColumn::make('executor.name')
                     ->searchable()
                     ->label('Исполнитель'),
+                TextColumn::make('executor.id')
+                    ->searchable()
+                    ->label('ID Исполнителя'),
                 TextColumn::make('status')
                     ->badge()
                     ->searchable()
@@ -90,14 +93,10 @@ class ResponsesRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-//                CreateAction::make(),
-//                AssociateAction::make(),
+                //
             ])
             ->recordActions([
                 ViewAction::make(),
-//                EditAction::make(),
-//                DissociateAction::make(),
-//                DeleteAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

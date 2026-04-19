@@ -12,7 +12,7 @@ use Filament\Tables\Columns\ImageColumn;
 use App\Models\User;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Columns\Summarizers\Sum;
-
+use App\Filament\Resources\Users\Schemas\UserForm;
 class UserInfolist
 {
     public static function configure(Schema $schema): Schema

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\TaskStatus;
 use App\Enums\UserRole;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -53,6 +54,14 @@ class Task extends Model
     public function viewResponseForm(User $user): bool
     {
         return $this->responses()->where('executor_id', $user->id)->exists();
+    }
+
+    public function  scopeForUser(Builder $query, int $userId): Builder
+    {
+        return $query->where(function (Builder $q) use ($userId) {
+            $q->where('client_id', $userId)
+                ->orWhere('executor_id', $userId);
+        });
     }
 
     public function viewExecutorState(User $user): ?string

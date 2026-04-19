@@ -14,10 +14,12 @@ class TransactionInfolist
                 TextEntry::make('user.name')
                     ->label('Пользователь'),
                 TextEntry::make('task.client.name')
-                    ->label('Палтельщик задачи'),
+                    ->label('Палтельщик задачи')
+                ->visible(fn ($record) => filled($record->task_id)),
                 TextEntry::make('task.title')
                     ->label('Заголовок задачи')
-                    ->placeholder('-'),
+                    ->placeholder('-')
+                    ->visible(fn ($record) => filled($record->task_id)),
                 TextEntry::make('type')
                     ->badge()
                     ->label('Тип транзакции')
@@ -26,7 +28,8 @@ class TransactionInfolist
                 TextEntry::make('amount')
                     ->numeric()
                     ->money('RUB', locale: 'ru')
-                    ->label('Сумма'),
+                    ->label('Сумма')
+                    ->prefix(fn ($state) => $state > 0 ? '+' : ''),
                 TextEntry::make('created_at')
                     ->dateTime()
                     ->label('Дата создания транзакции')
